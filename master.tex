@@ -1,0 +1,40 @@
+\documentclass[a4paper]{report}
+\input{header.tex}
+\setlength\parindent{0pt}
+\usepackage[parfill]{parskip}
+
+\author{Gaotang Li}
+\title{Machine Learning Theory Notes}
+
+\thispagestyle{empty}
+\addbibresource{ref.bib}
+
+\usetikzlibrary{lindenmayersystems}
+\pgfdeclarelindenmayersystem{cantor set}{
+  \rule{F -> FfF}
+  \rule{f -> fff}
+}
+\usetikzlibrary{arrows}
+\newcommand{\nMAX}{63} 
+\newcommand{\xGrSamp}{8} 
+
+\usepackage{pgfplots}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\input{Input/lec1.tex}
+\input{Input/lec2.tex}
+%─────Appendix────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+% \appendix
+% \appendixpage
+
+% \input{appendix.tex}
+
+% \newpage
+%─────Reference──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+\printbibliography
+
+\end{document}

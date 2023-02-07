@@ -1,0 +1,233 @@
+
+\part{Generalization Theory}
+\chapter{Supervised Learning Framework}
+
+\section{Basic Setups}
+In a supervised learning problem, we have a goal to predict a label given an input. Let \(S\)
+denote the dataset \(\{(x_i, y_i)\}_{i=1}^n\) for 
+\begin{itemize}
+    \item \(x_i \in \mathcal{X}\), the inputs in the input space. 
+    \item \(y_i \in \mathcal{Y}\), the label associated with \(x_i\) in the label space. 
+\end{itemize}
+
+We assume that the data are drawn \textbf{i.i.d.} from an unknown probability distribution 
+\(\mathcal{P}\) over \(\mathcal{X} \times \mathcal{Y}\). We aim at learning a function mapping 
+\(h \colon \mathcal{X} \to \mathcal{Y}\) (aka \emph{hypothesis}, \emph{predictor}, \emph{model}). 
+
+
+To evaluate the performance of \(h\), we specify a loss function. A loss function 
+\(\ell \colon \mathcal{Y}, \mathcal{Y} \to \mathbb{R}\) measures the difference between the predicted label 
+and the groundtruth label. 
+
+\begin{definition}[population risk]\label{def:population_risk}
+    The \emph{population risk} of a \emph{hypothesis} \(h\) is its expected loss over the data 
+    distribution \(\mathcal{P} \colon L_{\mathcal{P}} (h) = \mathbb{E}_{(x,y)\sim \mathcal{P}}[\ell (h(x), y)]\)
+\end{definition}
+
+\begin{eg}
+    Examples of Loss Functions 
+    \begin{itemize}
+        \item Classification: 0-1 loss \(\ell(\yhat, y) = \indi(\yhat \neq y)\). 
+        \item Regression: squared loss \(\ell(\yhat, y) = (\yhat - y)^2\)
+    \end{itemize}
+\end{eg}
+
+% \newcommand{\H}{\mathcal{H}}
+
+It is often impossible to consider all possible function mappings from \(\X \to \Y\). We 
+usually only consider a \emph{hypothesis class} \(\Hcal\).  
+
+\begin{eg}
+    Examples of \(\Hcal\). 
+    \begin{itemize}
+        \item Linear function class: \(\Hcal = \{h_\theta | h_\theta (x) = \theta^T x, \theta \in \R\}\) 
+        \item General parametric function class: \(\Hcal = \{h_\theta | h_\theta (x) = f(x,\theta), \theta \in \R^p\}\)
+    \end{itemize}
+\end{eg}
+
+
+\section{Empirical Risk Minimization}
+
+\begin{definition}[Empirical Risk]\label{def:erm}
+    The \emph{empirical risk} of a hypothesis \(h\) is its average loss over the dataset \(S\)
+    \[
+        L_{s}(h) = \frac{1}{n} \sum_{i=1}^n \ell (h(x_i), y_i)    
+    \]
+\end{definition}
+
+Empirical risk minimization (ERM) is any algorithm that minimizes the empirical risk over the hypothesis 
+class \(\Hcal\). We denote a hypothesis returned by ERM as \(\hat{h}_{ERM}\), \emph{i.e.}: 
+
+\[
+    \hat{h}_{ERM} \in \text{argmin}_{h\in \Hcal} L_S (h)    
+\]
+
+If we assume \(h\) is independent of \(S\), then \(\expec_S[L_S(h)] = L_P(h)\). But in reality 
+\(h\) and \(S\) are not independent. 
+
+
+\section{Questions} 
+
+In the supervised learning part of this course, we are mainly interested in the following two 
+fundamental problems: 
+
+\begin{itemize}
+    \item \textbf{Statistical}: What guarantee do we have about \(L_P(\hat{h}_{ERM})\)? 
+    \item \textbf{Optimization}: When may ERM be achieved efficiently? 
+\end{itemize}
+
+
+\chapter{Concentration Inequality}
+
+
+Concentration inequalities are a mathematical tool to study the relation between population 
+and empirical quantities. Consider the following main question: for i.i.d. random variables 
+\(X_1, \ldots, X_n\), how does \(\frac{1}{n}\sum_{i=1}^n X_i\) relate to 
+\(\expec[\frac{1}{n}\sum_{i=1}^n X_i] = \mu\)? 
+
+
+\section{Chebyshev's Inequality}
+
+\begin{lemma}[Markov's Inequality]\label{def:Markov}
+    Let \(X\) be a non-negative random variable, then for all \(t > 0\), 
+    \[
+        \Pr (X \geq t) \leq \frac{\expec(x)}{t}  
+    \]
+
+    \begin{proof}
+        \[
+        \expec(X) \geq \Pr(X < t) * 0 + \Pr(X > t) * t 
+        \]
+    \end{proof}
+\end{lemma}
+
+
+
+\begin{theorem}[Chebyshev's Inequality]
+    Let \(X\) be a random variable with finite expected value \(\mu\) and finite non-zero 
+    variance \(\sigma^2\). Then for any real number \(t > 0\), 
+    \[
+        \Pr \midBrac{ \lvert X - \expec(X)\rvert \geq t } \leq \frac{\Var(X)}{t}  
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            \Pr \midBrac{X - \expec[X] \geq t} &= \Pr \midBrac{(X - \expec[X])^2 \geq t^2} \\
+                                               &= \frac{\expec\midBrac{(X - \expec[X])^2}}{t^2} \\ 
+                                               &= \frac{\Var[X]}{t^2}
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{remark}
+    \[
+    \Pr \midBrac{ \absolute{X - \expec[X]} \geq t} \leq \frac{\expec[\absolute{X - \expec[X]}^P]}{t^P}
+    \]
+\end{remark}
+
+\begin{corollary}
+    Let \(x_1, \ldots, x_n\) be i.i.d. random variables such that \(\expec\midBrac{x_i} = \mu\), 
+    \(\Var[x_i] = \sigma^2\). Then: 
+    \[
+        \Pr \midBrac{ \absolute{\frac{1}{n}\sum_{i=1}^n x_i - \mu} \geq t} \leq \frac{\sigma^2}{nt^2}  
+    \]
+\end{corollary}
+
+
+\section{Hoeffding Inequality}
+
+\begin{lemma}
+    If \(X \in \midBrac{0, 1}\) a.s. Then,  
+
+    \[
+        \expec \midBrac{e^{\lambda \left(X - \expec[X]\right)}} \leq e^{\frac{\lambda^2}{8}}  
+    \]
+    for all \(\lambda \in \R\). 
+\end{lemma}
+
+\begin{proof}
+    Let \(Z = X - \expec[X]\), then \(\expec[Z] = 0\). \\ 
+    Define \(\psi(\lambda) \coloneqq \log \expec \midBrac{e^{\lambda Z}}\). \\ 
+    Using the Taylor expansion to get that \(\psi(\lambda) = \psi (0) + \lambda \psi' (0) + \frac{\lambda^2}{2}\psi''(\lambda')\)
+    where \(\lambda'\) is between 0 and \(\lambda\). 
+
+    Here the first term \(\psi(0) = \log 1 = 0\), and the second term \(\lambda \psi'(0) = \expec[Z] = 0\). 
+    The only thing we need to is to compute the third term. The idea is to bound the third term by \(1/4\). 
+
+    Then 
+    \begin{align*}
+         \psi'(\lambda) &= \frac{\expec\midBrac{e^{\lambda Z} Z}}{e^{\lambda Z}} \color{red} = \expec [Y] \\ 
+         \psi''(\lambda) &= \frac{\expec\midBrac{e^{\lambda Z} Z^2}}{e^{\lambda Z}} 
+         - \left(\frac{\expec\midBrac{e^{\lambda Z}Z}}{\expec [e^{\lambda Z}]}\right)^2 \\ 
+                        & \color{red} = \expec[Y^2] - \left(\expec[Y]\right)^2 \\ 
+                        & \color{red} = \Var [Y]
+    \end{align*}
+    Where we can think of \(Y\) as a reweighted version of \(Z\), and we have that 
+    \[
+      dP_Y (x) = \frac{e^{\lambda x}}{\expec \midBrac{e^{\lambda Z}}} dP_Z (x)  
+    \]
+
+    \textcolor{red}{not finished yet...}
+\end{proof}
+
+\begin{remark}
+    We also call such random variables \textbf{subgaussian} random variables. Another interpretation
+    is that bounded random variables are subgaussian. 
+
+    Another reminder is that the expectation is in the form of \textbf{Moment Generating Function}, 
+    where \(e^x = \sum_{k=0}^\infty \frac{x^k}{k!}\). 
+\end{remark}
+
+\begin{theorem}[Hoeffding Inequality]\label{def:hoeffding_ineq}
+    Let \(X_1, \ldots, X_n\) be i.i.d. random variables such that for each \(i\), \(X_i \in [0,1]\)
+    a.s. Then for all \(t > 0\): 
+    \begin{align*}
+        &\Pr \midBrac{ \frac{1}{n}\sum_{i=1}^n X_i - \expec \midBrac{\frac{1}{n}\sum_{i=1}^n X_i} \geq t} \leq e^{-2nt^2} \\
+        &\Pr \midBrac{ \frac{1}{n}\sum_{i=1}^n X_i - \expec \midBrac{\frac{1}{n}\sum_{i=1}^n X_i} \leq -t} \leq e^{-2nt^2}  
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    Let us use \(\Xbar\) to denote \(\frac{1}{n}\sum_{i=1}^n X_i\). Then we have that 
+    \begin{align*}
+        \Pr \midBrac{ \Xbar - \expec[\Xbar] \geq t} 
+        &= \Pr \midBrac{e^{\lambda(\Xbar - \expec[\Xbar] )} \geq e^{\lambda t}} \tag*{\(\lambda > 0\)} \\ 
+        &\leq \frac{\expec \midBrac{e^{\lambda(\Xbar - \expec[\Xbar] )}}}{e^{\lambda t}} \tag*{\hyperref[def:Markov]{Markov}}  \\
+        &= e^{-\lambda t} \cdot \expec \midBrac{e^{ \frac{\lambda}{n} \sum_{i=1}^n \left(X_i - \expec [X_i]\right) }} \\ 
+        &= e^{-\lambda t} \cdot \expec \midBrac{\prod_{i=1}^n e^{\frac{\lambda}{n} \left(X_i - \expec[X_i]\right)}} \\ 
+        &= e^{-\lambda t} \prod_{i=1}^n \expec \midBrac{e^{\frac{\lambda}{n} \left(X_i - \expec[X_i]\right)}} \tag*{Independence} \\ 
+        &\leq e^{-\lambda t} \left(e^{\frac{1}{8} (\frac{\lambda}{n})^n}\right) \\ 
+        &= e^{-\lambda t + \frac{\lambda^2}{8n}}  \\ 
+        &= e^{-2nt^2} \tag*{let \(\lambda = 4nt\)}
+    \end{align*}
+    By symmetry, we complete the proof. 
+\end{proof}
+
+\section{Bounded Difference Concentration Inequality}
+
+We are concerned with diffeormorphism (\emph{i.e.} change in one coordinate) and formally 
+\[
+    f(X_1, \cdots, X_n) \mapsto \expec \midBrac{f(X_1, \cdots, X_n)}
+\]
+
+
+\begin{theorem}[Mcdiarmid's inequality] \label{def:mcd_ineq}
+    Suppose \(X_1, \ldots, X_n\) are independent random variables taking values in a set \(A\). 
+    Let \(f \colon A^n \to \R\) be a function that satisfies the \emph{bounded difference} condition:
+
+    \[
+      \exists c_1, \ldots, c_n > 0 \text{s.t.} \forall \ x_1, \ldots, x_n \in A, x_i' \in A \\ 
+      \absolute{f(x_1, \ldots, x_n) - f(x_1, \ldots, x_{i-1}, x_i', x_{i+1}, \ldots, x_n)} \leq c_i  
+    \]
+    Then, for all \(t > 0\),
+    \[
+        \Pr \midBrac{f(X_1, \ldots, X_n) - \expec \midBrac{f(X_1, \ldots, X_n)} \geq t}
+        \leq e^{- \frac{2t^2}{\sum_{i=1}^n c_i^2}}
+    \]
+\end{theorem}
+
+\begin{remark}
+    If \(f(X_1, \ldots, X_n) = \frac{1}{n}\sum_{i=1}^n x_i\) and \(A = [0, 1]\), then 
+    \(c_i = \frac{1}{n}\) and the bound recovers the \hyperref[def:hoeffding_ineq]{Hoeffding inequality} 
+    as \(e^{-2nt^2}\). 
+\end{remark}

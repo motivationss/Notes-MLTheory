@@ -1,0 +1,123 @@
+
+\chapter{Rademacher Complexity}
+
+Preliminary on the relation between \(L_S(h)\) and \(L(h)\) (empirical risk and population risk):
+
+For a fixed \(h\) (independent of \(S\)), \(\expec_S \midBrac{L_S(h)} = L(h)\). \\ 
+By Hoeffding: \(\text{w.p.} \geq 1 - \delta \colon L(h) - L_S(h) \leq \sqrt{\frac{\log \frac{1}{\delta}}{2n}}\). 
+
+
+\section{Uniform Convergence}
+
+Motivation: we want to study \(L(\hat{h}_{ERM})\) and compare it against 
+\(h^* \in \text{argmin}_{h \in \Hcal} L(h)\). We want to bound the 
+difference \(L(\hat{h}_{ERM}) - L(h^*)\), which is also referred to as the ``\textbf{excess risk}''. 
+
+
+\[
+  L(\hat{h}_{ERM}) - L(h^*) = \left(L(\hat{h}_{ERM}) - L_S(\hat{h}_{ERM})\right) + 
+  \left( L_S(\hat{h}_{ERM}) - L_S(h^*) \right) + \left(L_S(h^*) - L(h^*)\right) 
+\]
+
+where the second term is smaller or equal to 0 by definition, and the third term can be bounded 
+using the Hoeffding inequality as \(h^*\) does not depend on \(S\). 
+
+Consequently, our aim becomes bounding the first term and we define the following 
+\textbf{generalization gap}: 
+
+\begin{definition}[Uniform Convergence]
+    \[L(\hat{h}_{ERM}) - L_S (\hat{h}_{ERM}) \leq \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right)\], 
+    where the bounded difference is called the generalization gap. 
+\end{definition}
+
+\begin{theorem}[Generalization Bound for finite hypothesis class]
+    If \(\Hcal\) is finite, then for any \(\delta \in (0, 1)\), we have 
+    \[
+        \text{w.p.} \geq 1 - \delta, \sup_{h \in \Hcal} (L(h) - L_S(h)) \leq \sqrt{\frac{\log \lvert \Hcal \rvert + \log \frac{1}{\delta}}{2n}}  
+    \]
+\end{theorem}
+
+
+\begin{remark}
+    If \(n >> \log \lvert \Hcal \rvert\), excess risk \(\to\) 0. 
+\end{remark}
+
+What if \(\Hcal\) is infinite? 
+
+-- Idea: Reduce infinite case to finite case. 
+
+
+\section{Rademacher Complexity}
+
+\textbf{Notation}: Given \(\Hcal\) and \(\ell\), define the family of loss mappings: 
+\[
+    \mathcal{G} = \{ g_h \colon (x, y) \mapsto \ell (h(x), y), h \in \Hcal \}
+\]
+
+where \(z = (x, y) \sim P\), \(z_i = (x_i, y_i)\), \(\mathcal{Z} = \X \times \Y\), 
+and \(L(h) = \expec_{z \sim P} \midBrac{g_h(z)}\), \(L_S(h) = \frac{1}{n} \sum_{i=1}^n g_h(z_i)\). 
+
+\[
+    \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right) = \sup_{g \in \mathcal{G}} \left(
+        \expec_{z \sim P} [g(z)] - \frac{1}{n} \sum_{i=1}^n g(z_i)
+    \right)    
+\]
+
+
+\begin{definition}[Empirical Rademacher Complexity]
+    Let \(\mathcal{G}\) be a set of functions mapping \(\mathcal{Z} \to \R\). 
+    Let \(S = \{z_1, \cdots, z_n\} \subseteq \mathcal{Z}\). 
+
+    The \textbf{empirical Rademacher complexity} of \(\mathcal{G}\) with respect to the simple 
+    set \(S\) is: 
+    \[
+        R_S(\mathcal{G}) = \expec_{\sigma_1, \cdots, \sigma_n} \midBrac{\sup_{g \in \mathcal{G}} \frac{1}{n} \sum_{i=1}^n \sigma_i g(z_i)}  
+    \]
+    where \(\sigma_i = \begin{cases}
+        +1 & \text{w.p.} \frac{1}{2} \\ 
+        -1 & \text{w.p.} \frac{1}{2}
+    \end{cases}\) i.i.d (called Rademacher random variables). 
+\end{definition}
+
+
+\begin{remark}
+    Rademacher complexity measures the ability of a function class to fit random noise 
+    \[
+        R_S(\mathcal{G}) = \expec_{\vec{\sigma}} \midBrac{\sup_{g \in \mathcal{G}} \frac{1}{n} <\vec{\sigma}, \vec{g}_s>}  
+    \]
+\end{remark}
+
+
+\begin{definition}[Rademacher Complexity]
+    Let \(P\) be a distribution over \(\mathcal{Z}\). 
+    
+    For an integer \(n \geq 1\), the \textbf{Rademacher complexity} of \(\mathcal{G}\) is 
+    \[
+        R_n(\mathcal{G}) = \expec_{S \sim P^n} \midBrac{R_S(\mathcal{G})}  
+    \]
+\end{definition}
+
+
+\begin{theorem}[Generalization Bound using Rademacher Complexity]
+    Let \(\mathcal{G}\) be a function class mapping \(\mathcal{Z}\) to \([0,1]\), \(S = \{z_1, \ldots, z_n\} \sim P^n\). 
+    Then for any \(\delta \in (0, 1)\): 
+
+    \[
+        \withp \geq 1 - \delta, \  \sup_{g\in \G} \left(\expec_{z \sim P} \midBrac{g(z)}
+        - \frac{1}{n} \sum_{i=1}^n g(z_i) \leq 2 R_n (\mathcal{G}) + \sqrt{\frac{\log \frac{1}{\delta}}{2n}}\right)  
+    \]
+
+    \[
+        \withp \geq 1 - \delta, \  \sup_{g\in \G} \left(\expec_{z \sim P} \midBrac{g(z)}
+        - \frac{1}{n} \sum_{i=1}^n g(z_i) \leq 2 R_S (\mathcal{G}) + 3\sqrt{\frac{\log \frac{2}{\delta}}{2n}}\right)  
+    \]
+    
+\end{theorem}
+
+
+\begin{proof}
+    Define \(f(z_1, \cdots, z_n) = \sup_{g \in \G} \left(\expec_{z \sim P}\midBrac{g(z)} - \frac{1}{n}\sum_{i=1}^n g(z_i)
+    \right)\). 
+
+    Consider 
+\end{proof}
