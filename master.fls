@@ -1,8 +1,8 @@
-PWD /Users/gaotangli/Desktop/Machine_Learning_Theory_Notes
+PWD /Users/gaotangli/Desktop/ML_Theory_Notes
 INPUT /usr/local/texlive/2022/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/gaotangli/Desktop/Machine_Learning_Theory_Notes/master.tex
+INPUT /Users/gaotangli/Desktop/ML_Theory_Notes/master.tex
 OUTPUT master.log
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/report.cls
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/report.cls

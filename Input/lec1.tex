@@ -203,6 +203,18 @@ and empirical quantities. Consider the following main question: for i.i.d. rando
     By symmetry, we complete the proof. 
 \end{proof}
 
+\begin{remark}[Equivalent Definition of Hoeffding Inequality]
+
+    
+    Let \(X_1, \ldots, X_n \in [0, 1]\) a.s. and independent, 
+    \begin{align*}
+        \forall \delta \in (0, 1), \ & \text{w.p.} \geq 1 - \delta \colon \ \ \frac{1}{n} 
+        \sum_{i=1}^n X_i - \expec \midBrac{\frac{1}{n}\sum_{i=1}^n X_i} \leq \sqrt{\frac{\log \frac{1}{\delta}}{2n}} \\ 
+        &\text{w.p.} \geq 1 - \delta \colon \ \ \expec \midBrac{\frac{1}{n}\sum_{i=1}^n X_i} - \frac{1}{n} 
+        \sum_{i=1}^n X_i \leq \sqrt{\frac{\log \frac{1}{\delta}}{2n}}
+    \end{align*}
+\end{remark}
+
 \section{Bounded Difference Concentration Inequality}
 
 We are concerned with diffeormorphism (\emph{i.e.} change in one coordinate) and formally 
