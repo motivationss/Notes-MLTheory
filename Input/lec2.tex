@@ -1,22 +1,19 @@
 
+\newcommand{\hERM}{\hat{h}_{\text{ERM}}}
+
 \chapter{Rademacher Complexity}
-
-Preliminary on the relation between \(L_S(h)\) and \(L(h)\) (empirical risk and population risk):
-
-For a fixed \(h\) (independent of \(S\)), \(\expec_S \midBrac{L_S(h)} = L(h)\). \\ 
-By Hoeffding: \(\text{w.p.} \geq 1 - \delta \colon L(h) - L_S(h) \leq \sqrt{\frac{\log \frac{1}{\delta}}{2n}}\). 
 
 
 \section{Uniform Convergence}
 
-Motivation: we want to study \(L(\hat{h}_{ERM})\) and compare it against 
+Motivation: we want to study \(L(\hERM)\) and compare it against 
 \(h^* \in \text{argmin}_{h \in \Hcal} L(h)\). We want to bound the 
-difference \(L(\hat{h}_{ERM}) - L(h^*)\), which is also referred to as the ``\textbf{excess risk}''. 
+difference \(L(\hERM) - L(h^*)\), which is also referred to as the ``\textbf{excess risk}''. 
 
 
 \[
-  L(\hat{h}_{ERM}) - L(h^*) = \left(L(\hat{h}_{ERM}) - L_S(\hat{h}_{ERM})\right) + 
-  \left( L_S(\hat{h}_{ERM}) - L_S(h^*) \right) + \left(L_S(h^*) - L(h^*)\right) 
+  L(\hERM) - L(h^*) = \left(L(\hERM) - L_S(\hERM)\right) + 
+  \left( L_S(\hERM) - L_S(h^*) \right) + \left(L_S(h^*) - L(h^*)\right) 
 \]
 
 where the second term is smaller or equal to 0 by definition, and the third term can be bounded 
@@ -26,7 +23,7 @@ Consequently, our aim becomes bounding the first term and we define the followin
 \textbf{generalization gap}: 
 
 \begin{definition}[Uniform Convergence]
-    \[L(\hat{h}_{ERM}) - L_S (\hat{h}_{ERM}) \leq \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right)\], 
+    \[L(\hERM) - L_S (\hERM) \leq \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right)\], 
     where the bounded difference is called the generalization gap. 
 \end{definition}
 
@@ -104,20 +101,129 @@ and \(L(h) = \expec_{z \sim P} \midBrac{g_h(z)}\), \(L_S(h) = \frac{1}{n} \sum_{
 
     \[
         \withp \geq 1 - \delta, \  \sup_{g\in \G} \left(\expec_{z \sim P} \midBrac{g(z)}
-        - \frac{1}{n} \sum_{i=1}^n g(z_i) \leq 2 R_n (\mathcal{G}) + \sqrt{\frac{\log \frac{1}{\delta}}{2n}}\right)  
+        - \frac{1}{n} \sum_{i=1}^n g(z_i) \right) \leq 2 R_n (\mathcal{G}) + \sqrt{\frac{\log \frac{1}{\delta}}{2n}} 
     \]
 
     \[
         \withp \geq 1 - \delta, \  \sup_{g\in \G} \left(\expec_{z \sim P} \midBrac{g(z)}
-        - \frac{1}{n} \sum_{i=1}^n g(z_i) \leq 2 R_S (\mathcal{G}) + 3\sqrt{\frac{\log \frac{2}{\delta}}{2n}}\right)  
+        - \frac{1}{n} \sum_{i=1}^n g(z_i) \right) \leq 2 R_S (\mathcal{G}) + 3\sqrt{\frac{\log \frac{2}{\delta}}{2n}} 
     \]
     
 \end{theorem}
 
 
 \begin{proof}
+    \textbf{Step 1: Relate the sup terms to the expectation of sups using Mcdiarmid's ineq }
+
     Define \(f(z_1, \cdots, z_n) = \sup_{g \in \G} \left(\expec_{z \sim P}\midBrac{g(z)} - \frac{1}{n}\sum_{i=1}^n g(z_i)
     \right)\). 
 
-    Consider 
+    Consider \(\{z_1, \ldots, z_n\}\) and \(\{z_1', \ldots, z_n'\}\) that only differs by 
+    1 point (\emph{i.e.} \(z_k \neq z_k', z_i = z_i' \ \forall i \neq k\)). 
+
+    \begin{align*}
+        f(z_1, \ldots, z_n) &= \sup_{g \in \G} \left( \expec\midBrac{g(z)} - 
+        \frac{1}{n}\sum_{i=1}^n g(z_i') + \frac{1}{n}\sum_{i=1}^n g(z_i') - 
+        \frac{1}{n} \sum_{i=1}^n g(z_i) \right) \\ 
+        & \leq \sup_{g \in \G} \left( \expec\midBrac{g(z)} - \frac{1}{n}\sum_{i=1}^n g(z_i') \right)
+        + \sup_{g \in \G} \left(\frac{1}{n} \sum_{i=1}^n g(z_i') - \frac{1}{n} \sum_{i=1}^n g(z_i)\right) \\ 
+        & = f(z_1', \ldots, z_n') + \sup_{g \in \G} \left(\frac{1}{n} g(z_k') - \frac{1}{n} g(z_k)\right) \\ 
+        & \leq f(z_1', \ldots, z_n') + \frac{1}{n}
+    \end{align*}
+
+    Similarly, \(f(z_i', \ldots, z_n') - f(z_1, \ldots, z_n) \leq \frac{1}{n}\). 
+    Combining them we can get that \(\absolute{f(z_1, \ldots, z_n) - f(z_1', \ldots, z_n')} \leq \frac{1}{n}\). 
+
+    Applying the Mcdiarmid's inequality, we can get the following bound: 
+    \[
+      \withp \geq 1 - \delta, f(z_1,\ldots, z_n) - \expec \midBrac{f(z_1,\ldots, z_n)} \leq 
+      \sqrt{\frac{\log \frac{1}{\delta}}{2n}}  
+    \]
+
+    \textbf{Step 2: Bound \(\expec_S \midBrac{\sup_{g \in \G} \left(\expec_{z\sim P}\midBrac{g(z)} - 
+    \frac{1}{n}\sum_{i=1}^n g(z_i)\right)}\) by Rademacher Complexity}
+
+    Draw a fresh set of \(n\) samples \(S' = \{z_1', \ldots, z_n'\} \sim P^n\). Fix \(S\), we have 
+    \begin{align*}
+        \sup_{g \in \G}  \left( \expec_{z \sim P} \midBrac{g(z)} - \frac{1}{n} \sum_{i=1}^n g(z_i)\right)
+        &= \sup_{g \in \G} \left( \expec_{S'} \midBrac{\frac{1}{n}\sum_{i=1}^n g(z_i)} - \frac{1}{n}\sum_{i=1}^n g(z_i)  \right) \\ 
+        &= \sup_{g \in \G} \left( \expec_{S'} \midBrac{\frac{1}{n} \sum_{i=1}^n \left(g(z_i') - g(z_i)\right) }  \right) \\
+        &\leq \expec_{S'} \midBrac{\sup_{g\in \G} \frac{1}{n} \sum_{i=1}^n \left(g(z_i') - g(z_i)\right)} 
+    \end{align*}
+
+    Taking expectation over \(S\) on both sides generate that 
+    \begin{align*}
+        \expec_S \midBrac{\sup_{g\in G} \left(\expec_{z\sim P}\midBrac{g(z)} - \frac{1}{n}\sum_{i=1}^n g(z_i)\right)}
+        &\leq \expec_{S,S'} \midBrac{\sup_{g\in \G} \frac{1}{n} \sum_{i=1}^n \left(g(z_i') - g(z_i)\right)} \\ 
+        &= \expec_{S, S', \vec{\sigma}} \midBrac{\sup_{g \in \G} \frac{1}{n} \sum_{i=1}^n \sigma_i 
+        \left(g(z_i') - g(z_i)\right)}  \tag*{?}\\
+        &\leq \expec_{S, S', \vec{\sigma}} \midBrac{\sup_{g \in \G} \frac{1}{n} \sum_{i=1}^n \sigma_i g(z_i')}
+        + \expec_{S, S' \vec{\sigma}} \midBrac{\sup_{g\in\G}\frac{1}{n}\sum_{i=1}^n - \sigma_i g(z_i)} \\ 
+        &= 2 R_n (\G)
+    \end{align*}
+
+    Combining the result from \textbf{step 1} and \textbf{step 2}, we prove the first inequality in the theorem. 
+
+    \textbf{Step 3: Prove \(R_n(\G)\) and \(R_S(\G)\) are close}
+    Similar to step 1, we can verify that \(R_S(\G)\) satisifies the bounded difference property. 
+    
+    Apply Mcdiarmid's inequality, we can get that 
+    \[
+      \withp \geq 1 - \delta, R_n(\G) \leq R_S (\G) + \sqrt{\frac{\log \frac{1}{\delta}}{2n}}    
+    \]
+
+    Combining the outputs from step 1 - 3 and replacing \(\delta\) with \(\delta / 2\) gives the second 
+    inequality. 
 \end{proof}
+
+
+
+\chapter{VC-Dimension}
+
+In this chapter, we only consider the binary classification case with the 0-1 loss, 
+\emph{i.e.} \(y = \{ \pm 1\}\) and \(\G = \{(x, y) \mapsto \indi \midBrac{h(x)\neq y} \colon h \in \Hcal \}\).
+
+\section{Using VC-Dimension to bound generalization bound}
+
+\begin{lemma}\label{lem:rnG and rnH}
+    \(R_n (\G) = \frac{1}{2} R_n (\Hcal)\)
+\end{lemma}
+
+\begin{proof}
+    Given \(S = \{(x_i, y_i)\}_{i=1}^n\), we have 
+    \begin{align*}
+        R_S(\G) &= \expec_{\vec{\sigma}} \midBrac{ \sup_{h \in \Hcal} \frac{1}{n} \sigma_i \indi \midBrac{h(x_i) \neq y_i} }  \\
+        &= \expec_{\vec{\sigma}} \midBrac{\sup_{h \in \Hcal} \frac{1}{n} \sum_{i=1}^n \sigma_i 
+        \frac{1 - y_i h(x_i)}{2}} \\
+        &= \frac{1}{2} \expec_{\vec{\sigma}} \midBrac{ \frac{1}{n} \sum_{i=1}^n \sigma_i 
+        + \sup_{h \in \Hcal} \frac{1}{n} \sum_{i=1}^n \sigma_i (-y_i) h(x_i) } \\ 
+        &= \frac{1}{2} \expec_{\vec{\sigma}} \midBrac{ \sup_{h \in \Hcal} \frac{1}{n} 
+        \sum_{i=1}^n \sigma_i h(x_i) } \\ 
+        &= \frac{1}{2} R_S(\Hcal) 
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    It then becomes natural to bound \(R_n (\Hcal)\). 
+\end{remark}
+\begin{definition}[Growth Function] \label{def:growth_function}
+    The growth function \(\Pi_\Hcal \colon \N \to \N\) for a hypothesis class 
+    \(\Hcal\) that maps to \(y = \{\pm 1\}\) is defined as 
+    \[
+        \Pi_\Hcal (n) = \sup_{x_1, \ldots, x_n \in \X} \lvert \{ \left(h(x_1),\ldots, h(x_n)\right) \colon h \in \Hcal \} \rvert  
+    \]
+\end{definition}
+
+\begin{remark}
+    This definition defines the set of all possible predictions on a given set of inputs. 
+\end{remark}
+
+
+
+\begin{theorem}[Generalization bound using growth function]
+    Let \(\Hcal\) be a hypothesis class taking values \(y = \{\pm 1\}\). Then 
+    \[
+        R_n (\Hcal) \leq \sqrt{ \frac{2 \log \Pi_\Hcal (n)}{n} }  
+    \]
+\end{theorem}
+
