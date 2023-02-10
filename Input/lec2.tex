@@ -183,7 +183,7 @@ and \(L(h) = \expec_{z \sim P} \midBrac{g_h(z)}\), \(L_S(h) = \frac{1}{n} \sum_{
 In this chapter, we only consider the binary classification case with the 0-1 loss, 
 \emph{i.e.} \(y = \{ \pm 1\}\) and \(\G = \{(x, y) \mapsto \indi \midBrac{h(x)\neq y} \colon h \in \Hcal \}\).
 
-\section{Using VC-Dimension to bound generalization bound}
+\section{Growth Function Bounds}
 
 \begin{lemma}\label{lem:rnG and rnH}
     \(R_n (\G) = \frac{1}{2} R_n (\Hcal)\)
@@ -227,3 +227,70 @@ In this chapter, we only consider the binary classification case with the 0-1 lo
     \]
 \end{theorem}
 
+\begin{proof}
+    Let \(S = \{x_1, \ldots, x_n\}\), \(Q = Q_S = \{\left(h(x_1), \ldots, h(x_n) \colon h \in \Hcal \right)\}\). 
+
+    We want to show that \(R_S(\Hcal) \leq \sqrt{\frac{2\log \absolute{Q}}{n}}\) 
+
+    \begin{align*}
+        R_S (\Hcal) &= \expec_{\vec{\sigma}} \midBrac{ \sup_{h\in \Hcal} \frac{1}{n} \sum_{i=1}^n \sigma_i h(x_i) } \\ 
+                    &= \expec_{\vec{\sigma}} \midBrac{ \sup_{\vec{v} \in Q} \sampleAverage \sigma_i v_i } \tag*{Apply Hoeffding} 
+    \end{align*}
+
+    Then for all \(\lambda > 0\),  
+
+    \begin{align*}
+        e^{\lambda R_S(\Hcal)} &= e^{  \lambda \expec_{\vec{\sigma}} \midBrac{ \sup_{\vec{v} \in Q} \sampleAverage \sigma_i v_i }  } \\
+                               &\leq \expec_{\vec{\sigma}} \midBrac{  e^{\lambda \sup_{\vec{v} \in Q} \sampleAverage \sigma_i v_i } } \tag*{Jensen's ineq} \\ 
+                               & \leq \expec_{\vec{\sigma}} \midBrac{ \sum_{\vec{v} \in Q} e^{\lambda \sampleAverage \sigma_i v_i }} \tag*{\color{red}why?} \\ 
+                               & = \sum_{\vec{v} \in Q} \expec_{\vec{\sigma}} \midBrac{ e^{\lambda \sampleAverage \sigma_i v_i} } \\ 
+                               & \leq \sum_{\vec{v} \in Q} e^{\frac{\lambda^2}{2n}} \tag*{by Hoeffding} \\ 
+                               &= \absolute{Q} e^{\frac{\lambda^2}{2n}}
+    \end{align*}
+    This gives that \(R_S(\Hcal) \leq \frac{1}{\lambda} \log \absolute{Q} + \frac{\lambda}{2n}\) 
+
+    Choose \(\lambda = \sqrt{2n \log \absolute{Q}}\) and we can get that \(R_S(\Hcal) \leq \sqrt{\frac{2\log \absolute{Q}}{n}}\)
+\end{proof}
+
+\begin{remark}
+    Discussions about the growth function: 
+    \begin{itemize}
+        \item When \(\Hcal\) is finite, we have that \(\Pi_{\Hcal} (n) \leq \absolute{\Hcal}\) 
+        \[
+            R_n (\Hcal) \leq \sqrt{ \frac{2\log \absolute{\Hcal}}{n} } \text{ recovers Thm 1}  
+        \]
+        \item When \(\Hcal\) is ``super power'', \(\Pi_\Hcal (n) = 2^n\), \emph{i.e. overfitting}. 
+        \[
+            R_n (\Hcal) \leq \sqrt{ \frac{2 \log 2^n}{n}} = \sqrt{2 \log 2}  
+        \]
+        \item What if the growth function is in-between, a polynomial function? 
+        
+        Suppose \(\Pi_\Hcal (n) \leq n^d\), we have that 
+        \[
+            R_n(\Hcal) \leq \sqrt{ \frac{2 d \log n}{n}} \to 0 \text{ if } n >> d \log d 
+        \]
+    \end{itemize}
+\end{remark}
+
+
+\section{VC-Dimension}
+
+\begin{definition}[VC-dimension]\label{def:VC_dimension}
+    The VC-dimension of a class of hypothesis function \(\Hcal\) is 
+    \[
+        \text{VC}(\Hcal) = \max \{ n \colon \Pi_\Hcal (n) = 2^n \}  
+    \]
+\end{definition}
+
+\begin{definition}[Shatter]\label{def:shatter}
+    \(S = \{x_1, \ldots, x_n\}\) can be shattered by \(\Hcal\) if 
+    \(\forall \ y_1, \ldots, y_n \in \{\pm 1\}, \exists h \in \Hcal \text{s.t.} h(x_i)=y_i\)
+    for all \(i = \{1, \ldots, n\}\). 
+\end{definition}
+
+\begin{remark}
+    The VC-dimension is the maximum size of a sample set \(S\) that can be \textbf{shattered}
+    by \(\Hcal\). 
+\end{remark}
+
+% Two main theorems should be introduced in the next part 

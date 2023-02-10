@@ -1892,6 +1892,10 @@ INPUT ./Input/lec2.tex
 INPUT Input/lec2.tex
 INPUT ./Input/lec2.tex
 INPUT Input/lec2.tex
+INPUT ./Input/lec3.tex
+INPUT Input/lec3.tex
+INPUT ./Input/lec3.tex
+INPUT Input/lec3.tex
 INPUT master.aux
 INPUT ./master.out
 INPUT ./master.out
@@ -1900,6 +1904,7 @@ OUTPUT master.run.xml
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc
 INPUT /Users/gaotangli/Library/texlive/2022/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb

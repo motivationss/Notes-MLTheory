@@ -1,0 +1,30 @@
+Next we look at four examples illustrating the concept of VC-dimension. 
+
+\begin{eg}[Threshold Function]
+    Let \(\X = \R\),\(\Hcal = \{h_a \colon a\in \R\}\),
+     \(h_a \in \Hcal\), \(h_a (x) = \begin{cases}
+        +1, &\text{if} \ x \geq a \\ 
+        -1, &\text{if} \ x < a 
+    \end{cases}\)
+
+     \begin{center}
+        Then \(\mathbf{VC-dim}(\Hcal) = 1\)
+     \end{center} 
+\end{eg}
+
+\begin{proof}
+    \begin{enumerate}
+        \item any input \(x \in \R\) can be shattered 
+        \[
+            h_{x-1}(x) = +1, \ \ h_{x+1} = -1 
+        \]
+        \item any inputs \(x_1, x_2 \in \R\) cannot be shattered 
+        \[
+            x_1 \leq x_2, \ \text{impossible to label } (+1, -1)  
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{eg}[Axis-aligned rectangles]
+    
+\end{eg}

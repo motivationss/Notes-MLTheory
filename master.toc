@@ -11,4 +11,5 @@
 \contentsline {section}{\numberline {3.1}Uniform Convergence}{8}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Rademacher Complexity}{8}{section.3.2}%
 \contentsline {chapter}{\numberline {4}VC-Dimension}{11}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Using VC-Dimension to bound generalization bound}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.1}Growth Function Bounds}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.2}VC-Dimension}{12}{section.4.2}%
