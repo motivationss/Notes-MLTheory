@@ -220,7 +220,7 @@ In this chapter, we only consider the binary classification case with the 0-1 lo
 
 
 
-\begin{theorem}[Generalization bound using growth function]
+\begin{theorem}[Generalization bound using VC-dimension]
     Let \(\Hcal\) be a hypothesis class taking values \(y = \{\pm 1\}\). Then 
     \[
         R_n (\Hcal) \leq \sqrt{ \frac{2 \log \Pi_\Hcal (n)}{n} }  
@@ -273,7 +273,7 @@ In this chapter, we only consider the binary classification case with the 0-1 lo
 \end{remark}
 
 
-\section{VC-Dimension}
+
 
 \begin{definition}[VC-dimension]\label{def:VC_dimension}
     The VC-dimension of a class of hypothesis function \(\Hcal\) is 
@@ -293,4 +293,53 @@ In this chapter, we only consider the binary classification case with the 0-1 lo
     by \(\Hcal\). 
 \end{remark}
 
-% Two main theorems should be introduced in the next part 
+\begin{eg}[Threshold Function]
+    Let \(\X = \R\),\(\Hcal = \{h_a \colon a\in \R\}\),
+     \(h_a \in \Hcal\), \(h_a (x) = \begin{cases}
+        +1, &\text{if} \ x \geq a \\ 
+        -1, &\text{if} \ x < a 
+    \end{cases}\)
+
+     \begin{center}
+        Then \(\mathbf{VC-dim}(\Hcal) = 1\)
+     \end{center} 
+\end{eg}
+
+\begin{proof}
+    \begin{enumerate}
+        \item any input \(x \in \R\) can be shattered 
+        \[
+            h_{x-1}(x) = +1, \ \ h_{x+1} = -1 
+        \]
+        \item any inputs \(x_1, x_2 \in \R\) cannot be shattered 
+        \[
+            x_1 \leq x_2, \ \text{impossible to label } (+1, -1)  
+        \]
+    \end{enumerate}
+\end{proof}
+
+
+
+\begin{theorem}[growth function bound]
+    Let \(\Hcal\) be a hypothesis class with VC-dimension \(d\). Then, 
+    \[
+        \forall \ n >> d \colon \Pi_\Hcal (n) << \left(\frac{e^n}{d}\right)^d \leq n^d \ \ \text{if } d \geq 3  
+    \]
+\end{theorem}
+
+
+\begin{theorem}[Generalization Bound Using VC-Dimension]
+    Let \(\Hcal\) be a hypothesis class taking values in \(y = \{\pm 1\}\) and has 
+    VC-dim \(d\). Consider the 0-1 loss. 
+
+    Then, for all \(\delta \in (0, 1)\), 
+    \[
+    \withp \geq 1 - \delta, \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right) \leq 
+    \sqrt{\frac{2d \log e^n}{d}} + \sqrt{\frac{\log \frac{1}{\delta}}{2n}}  
+    \]
+\end{theorem}
+
+\begin{remark}
+    This VC-dimension bound requires \(n >> d\). In other words, it is effective when the 
+    hypothesis class is relatively less expressive. 
+\end{remark}

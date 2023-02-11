@@ -12,4 +12,6 @@
 \contentsline {section}{\numberline {3.2}Rademacher Complexity}{8}{section.3.2}%
 \contentsline {chapter}{\numberline {4}VC-Dimension}{11}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Growth Function Bounds}{11}{section.4.1}%
-\contentsline {section}{\numberline {4.2}VC-Dimension}{12}{section.4.2}%
+\contentsline {section}{\numberline {4.2}More on VC-Dimension}{13}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Margin Theory}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Basic Setups}{16}{section.5.1}%

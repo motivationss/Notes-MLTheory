@@ -1,30 +1,173 @@
-Next we look at four examples illustrating the concept of VC-dimension. 
+\section{More on VC-Dimension}
+First we look at more examples illustrating the concept of VC-dimension. 
 
-\begin{eg}[Threshold Function]
-    Let \(\X = \R\),\(\Hcal = \{h_a \colon a\in \R\}\),
-     \(h_a \in \Hcal\), \(h_a (x) = \begin{cases}
-        +1, &\text{if} \ x \geq a \\ 
-        -1, &\text{if} \ x < a 
-    \end{cases}\)
-
-     \begin{center}
-        Then \(\mathbf{VC-dim}(\Hcal) = 1\)
-     \end{center} 
+\begin{eg}[Axis-aligned rectangles]
+    Let \(\X = \R\), \(\Hcal = \{ h_{a,b,c,d} \colon a,b,c,d \in \R \}\),  and \(h \in \Hcal\) be the form 
+    \[
+        h_{a,b,c,d} (x) = \begin{cases}
+            1 & \text{ if } x_1 \in [a,b], x_2 \in [c, d] \\ 
+            -1 & \text{ otherwise}
+        \end{cases}  
+    \]
+    
+    Then we have \textbf{Vc-dim} \(\Hcal = 4\). 
 \end{eg}
 
 \begin{proof}
     \begin{enumerate}
-        \item any input \(x \in \R\) can be shattered 
+        \item there exists 4 points that can be shattered  \color{red}{exists or for all}? 
+        
+        \item Any 5 points cannot be shattered  \\ 
+        Choose the minimum axis-aligned rectangle that contains all 5 points, then it is impossible 
+        to label the sides +1 while labeling inside one -1  
+    \end{enumerate}
+\end{proof}
+
+\begin{eg}[Linear Functions]
+    Let \(\X = \R\), \(\Hcal = \{h_w \colon w \in \R^d\}\), and 
+    \[h_w(x) = \text{sign}(w^Tx)
+    = \begin{cases}
+        1 &\text{if } w^Tx \geq 0 \\ 
+        -1 &\text{if } w^tx < 0 
+    \end{cases}\]
+    Then \textbf{Vc-dim}(\(\Hcal\)) = \(d\). 
+\end{eg}
+
+\begin{proof}
+    \begin{enumerate}
+        \item \(\exists \ d\) points that can be shattered \color{red} Same Question exists or for all?
+        
+        \color{black} Choose \(x_1, \ldots, x_d \in \R^d\) that are linearly independent. \\ 
+        Then for all \(y_1, \ldots, y_d \in \{\pm 1\}\), we can find a \(w \in \R^d\) such that 
+        \(w^T x_i = y_i\), for all \(i=1,\ldots, d\) by solving the set of linear equations. 
+        
+        \item Any \(d+1\) point cannot be shattered  
+        
+        Assume for the sake of contradiction that there exists \(d+1 \ \text{points} \colon 
+        x_1, \ldots, x_d\) that can be shattered. \\ 
+        In formal terms, \(\exists \  \alpha = (\alpha_1, \ldots, \alpha_{d+1})  \ \text{s.t.} 
+        \sum_{i=1}^{d+1} \alpha_i x_i = 0,\  \alpha \neq 0\), \emph{i.e.} \(\exists \ 
+        \text{a coordinate} \ k \in \{ 1,\ldots, d+1\} \ \text{s.t.} \ \alpha_k \neq 0\). 
+        WLOG we can assume \(\alpha_k > 0\).  
+        
+        For all \(w \in \R^d\), we must have 
+        \(\sum_{i=1}^{d+1} \alpha_i w^T x_i = 0\).  \color{red} why? 
+
+        \color{black} Then let \(y_i = \text{sign}(\alpha_i), i=1,\ldots,d+1\). \(\exists w
+        \in \R^d \ \text{s.t.} \ \text{sign}(w^T x_i) = y_i\). 
+
+        Then we find the contradiction: 
         \[
-            h_{x-1}(x) = +1, \ \ h_{x+1} = -1 
-        \]
-        \item any inputs \(x_1, x_2 \in \R\) cannot be shattered 
-        \[
-            x_1 \leq x_2, \ \text{impossible to label } (+1, -1)  
+            0 = \sum_{i=1}^{d+1} \alpha_i (w^T x_i) < 0 \tag*{opposite sign}
         \]
     \end{enumerate}
 \end{proof}
 
-\begin{eg}[Axis-aligned rectangles]
-    
+
+\begin{eg}[Sine Function]
+    Let \(\X = \R\), \(\Hcal = \{h_\omega \colon \omega \in \R\}\), and 
+    \(h = \text{sign}\left(\sin(\omega x)\right)\)
+
+    Then \textbf{Vc-dim}( \(\Hcal\)) = \(\infty\). 
 \end{eg}
+
+\begin{proof}
+    It suffices to show that \(\exists\) n points that can be shattered, for any \(n\). \\ 
+    Consider \(n\) points, \(x_i = 2^{-i}\) (\(i = 1, \ldots, n\)) and any labeling 
+    \(y_1, \ldots, y_n \in \{\pm 1\}\). 
+
+    Define \( \frac{\omega}{\pi} = \left( y_n' y_{n-1}' \ldots y_1' 1 \right)_2\) in terms of 
+    binary integer, where \(y_i' = \begin{cases}
+        0 &\text{if } y_i = 1 \\ 
+        1 &\text{if } y_i = -1 
+    \end{cases}\) 
+
+    WTS \(\text{sign}\left(\sin (\omega x_i)\right) = y_i\), 
+
+    which can be realized through 
+    \[
+        \frac{\omega x_i}{\pi} = \frac{\omega}{\pi} 2^{-i} = \left(y_n' y_{n-1}' \ldots y_1' 1 \right)_2 
+    \]
+
+    \color{red} Not fully understand 
+\end{proof}
+
+
+\begin{theorem}[VC-dimension in finite precision]
+    Let \(\Hcal\) be parametrized by \(p\) parameters, with each stored in \(k\) bits. 
+    \(\Hcal = \{h_\theta, \theta \in \R^P\}\), then VC-dim(\(\Hcal\)) \(\leq k \cdot p\). 
+\end{theorem}
+
+\begin{proof}
+    There are \((2^k)^p\) choices for \(\theta = (\theta_1, \ldots, \theta_p)\), and then 
+    \[
+        2^{\text{Vc-dim}(\Hcal)} \leq \absolute{\Hcal} \leq 2^{kp}
+    \]
+\end{proof}
+
+\begin{remark}[Limitation of VC-dimension]
+    \begin{align*}
+        L(h) - L_S(h) &\leq \tilde{O} \left(\sqrt{\frac{VC-dim(\Hcal)}{n}}\right) \\ 
+                      &\leq \tilde{O} \left(\sqrt{\frac{\#\text{params}}{n}}\right)
+    \end{align*}
+
+    If \# params >> \# samples, the bound will become vacuous. 
+\end{remark}
+
+
+\chapter{Margin Theory}
+
+We focus on the binary classification setting where \(y = \{\pm 1\}\). 
+
+\section{Basic Setups}
+
+\begin{definition}[Margin]\label{def:margin}
+    The margin of a function \(h \colon \X \to \R\) at a point \(x \in \X\) labeled 
+    with \(y \in \{\pm 1\}\) is \(yh(x)\). 
+\end{definition}
+
+\begin{remark}
+    We have \( \hat{y} = \text{sign}\left(h(x)\right)\); and a classification is correct when 
+    \(y h(x) > 0\). 
+\end{remark}
+
+\begin{definition}[Margin Loss]\label{def:margin_loss}
+    For any \(\gamma > 0\), define \(\gamma\)-margin loss as 
+    \[
+        \ell_\gamma (y', y) = \ell_\gamma(yy') = \begin{cases}
+            1, &\text{if } yy' \leq 0 \\ 
+            1 - \frac{yy'}{\gamma} &\text{if } 0 < yy' < \gamma \\ 
+            0, &\text{if } yy' \geq \gamma 
+        \end{cases}  
+    \]
+\end{definition}
+
+\begin{remark}
+    Margin Loss \(\geq\) 0-1 loss (in terms of their graphs). 
+\end{remark}
+
+\begin{definition}[Population \& Empirical Risk for Margin Loss]
+    \[
+        L_\gamma (h) = \expec_{(x,y) \sim P} \midBrac{\ell_\gamma \left(h(x), y\right)} 
+    \] 
+    \[ 
+        L_{\gamma, S} (h) = \frac{1}{n} \sum_{i=1}^n \ell_\gamma \left(h(x_i), y_i\right)  
+    \]
+\end{definition}
+
+\begin{remark}
+    \(\ell_\gamma (\cdot)\) is \(\frac{1}{\gamma}\)-Lipschitz. 
+\end{remark}
+
+SideNote: We say \(f \colon \R \to R\) is \(C-\)Lipschitz if \(\absolute{f(x) - f(x')}
+\leq C\absolute{x - x'}\) for all \(x, x' \in \R\). OR equivalently, \(\absolute{f'(x)} \leq C,
+\forall x \in R\). 
+
+\begin{lemma}[Talagrend's Lemma]
+    Let \(\phi \colon \R \to \R\) be a C-Lipschitz function. Then, 
+    \[
+        R_S (\phi \ \odot \ \Hcal) \leq C \cdot R_S(\Hcal)  
+    \]
+    where \(\phi \ \odot \ \Hcal = \{z \mapsto \phi(h(z)) \colon h \in \Hcal\}\).  
+\end{lemma}
+
