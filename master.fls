@@ -1896,6 +1896,10 @@ INPUT ./Input/lec3.tex
 INPUT Input/lec3.tex
 INPUT ./Input/lec3.tex
 INPUT Input/lec3.tex
+INPUT ./Input/lec5.tex
+INPUT Input/lec5.tex
+INPUT ./Input/lec5.tex
+INPUT Input/lec5.tex
 INPUT master.aux
 INPUT ./master.out
 INPUT ./master.out

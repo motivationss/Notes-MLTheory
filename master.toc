@@ -15,3 +15,8 @@
 \contentsline {section}{\numberline {4.2}More on VC-Dimension}{13}{section.4.2}%
 \contentsline {chapter}{\numberline {5}Margin Theory}{16}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Basic Setups}{16}{section.5.1}%
+\contentsline {part}{II\hspace {1em}Optimization}{18}{part.2}%
+\contentsline {chapter}{\numberline {6}Gradient Descent}{19}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Convex Optimization}{20}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Convergence of GD for Smooth Convex Functions}{21}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Convergence of GD for smooth and strongly convex functions}{21}{section.6.3}%

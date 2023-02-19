@@ -1,0 +1,219 @@
+\part{Optimization}
+
+\chapter{Gradient Descent}
+
+In iterative algorithm, we are concerned with 
+\[
+   \text{min}_{x \in \R^d} f(x)  
+\]
+
+
+some 
+
+
+\[
+    x_{t+1} = x_t - \eta \nabla f(x_t), \ t = 0,1,2,\ldots
+\]
+
+where \(\eta > 0\) is called \emph{step size} or \emph{learning rate}. 
+
+In order for GD to do what it's supposed to do, we want the 1st-order Taylor expansion to be 
+accurate. 
+
+Error of 1st-order Taylor: 
+
+
+\begin{align*}
+    f(x) - f(x_t) -  \innerProd{\nabla f(x_t)}{x - x_t} &= \frac{1}{2} (x - x_t)^T \nabla^2 f(\xi) (x - x_t) \\ 
+    & \leq \frac{1}{2} \lVert \nabla^2 f(\xi)\rVert_2 + \lVert x - x_t\rVert_2^2
+\end{align*}
+
+\begin{definition}[smoothness]
+    A differentiable function \(f \colon \R^d \to \R\) is \(\beta\)-smooth (\(\beta > 0\)) if 
+    \[
+        \lVert \nabla f(x) - \nabla f(y)\rVert_2 \leq \beta\lVert x - y\rVert_2, \ \forall \ x, y   
+    \]
+    In other words, gradient of \(f\) is \(\beta\)-Lipschitz. 
+\end{definition}
+
+\begin{remark}
+    When \(f\) is twice differentiable, \(f \colon \R^d \to \R\) is equivalent to 
+    \[
+        \lVert \nabla^2 f(x)\rVert_2 \leq \beta, \ \forall \ x   
+    \]
+\end{remark}
+
+\begin{lemma}
+    If \(f\) is \(\beta\)-smooth, then: 
+    \[
+        \absolute{ f(y) - f(x) - \innerProd{a}{b}}  \leq \frac{\beta}{2} \lVert x - y\rVert_2^2  
+    \]
+\end{lemma}
+
+
+\begin{lemma}[Descent Lemma]
+    If \(f\) is \(\beta\)-smooth and \(\eta \leq \frac{1}{\beta}\), then GD with 
+    step size \(\eta\) (\(x_{t+1} = x_t - \eta \nabla f(x_t)\)) satisfies 
+    \[
+        f(x_{t+1}) \leq f(x_t) - \frac{\eta}{2} \norm{\nabla f(x_t)}_2^2 
+    \]
+\end{lemma}
+
+\begin{proof}
+    \begin{align*}
+        f(x_{t+1}) &\leq f(x_t) +
+    \end{align*}
+\end{proof}
+
+
+\begin{corollary}
+    If \(f\) is \(\beta\)-smooth, then GD with step size \(\eta \leq \frac{1}{\beta}\) must 
+    satisfy: 
+    \begin{itemize}
+        \item \(\lim_{t \to \infty} f(x_t)\) exists 
+        \item \(\lim_{t \to \infty} \norm{\nabla f(x_t)}_2 = 0\), since function converges and 
+        \(f(x_t) - f(x)\) is bounded by it. 
+    \end{itemize}
+\end{corollary}
+
+\section{Convex Optimization}
+
+\begin{definition}[convexity] We present the following definitions: 
+    
+    \textbf{convex set}: A set \(X \subseteq \R^d\) is convex if 
+    \[
+        \forall x, y \in X, \ \forall \gamma \in (0,1) \colon (1 - \gamma)x + \gamma y \in X   
+    \]
+
+    \textbf{convex function}: A function \(f \colon X \to \R\) is convex if \(X\) is convex 
+    and 
+    \[
+        \forall x, y \in X, \ \forall \gamma \in (0,1) \colon 
+        f \left((1 - \gamma)x + \gamma y\right) \leq (1 - \gamma) f(x) + \gamma f(y)
+    \]
+\end{definition}
+
+\begin{eg} Common Convex Functions 
+
+    \begin{itemize}
+        \item linear function 
+        \item squared norm
+    \end{itemize}
+    
+\end{eg}
+
+\begin{eg}[Examples that preserve convexity] E.g. 
+
+
+    \begin{itemize}
+        \item non-negative weighted sum 
+        \item composition with affine mapping 
+        \item pointwise supreme 
+    \end{itemize}
+\end{eg}
+
+
+\begin{eg}[Linear Model] Given dataset \(S = \{x_i, y_i\}_{i=1}^n\), \(\Hcal = \{x \mapsto w^T x \colon 
+    w \in \R^d\}\). Empirical risk \(L_S(w) = \frac{1}{n} \sum_{i=1}^n \ell (w^Tx_i, y_i)\)
+
+    \textbf{claim:} If \(\ell (y', y)\) is convex in its first argument (for any fixed \(y\)), 
+    then \(L_S\) is convex. 
+\end{eg}
+
+Let's see the common loss functions that are convex in first argument. (\(y \in \{\pm 1\}\))
+
+\begin{itemize}
+    \item squared loss: \(\ell (y', y) = (y - y')^2\) Convex 
+    \item 0-1 loss: \(\ell(y', y) = \indi \midBrac{yy' \leq 0}\) not Convex 
+    \item Margine loss: not convex 
+    \item Hinge loss: convex 
+    \item logistic loss: \(\ell (y', y) = \log (1 + e^{-yy'})\) convex 
+\end{itemize}
+
+\begin{lemma}[first-order \& second-order characterization of convex functions]
+    First, if \(f\) is differentiable, then \(f\) is convex if and only if 
+    \[
+        f(y) \geq f(x) + \innerProd{\nabla f(x)}{y - x}, \ \forall x, y  
+    \]
+
+    Second, if \(f\) is twice-continuously differentiable, then \(f\) is convex if and only if 
+    \[
+        \nabla^2 f(x) \succeq 0, \ \forall x   
+    \]
+\end{lemma}
+
+\begin{definition}[Local Minimum] 
+    A local minimum of a function \(f \colon \R^d \to \R\) is a point \(x \in \R\) such that 
+    \(\exists  \ \epsilon > 0\): 
+    \[
+        f(x) \leq f(y), \ \forall \ y \text{ satisfying } \norm{y-x}_2 \leq \epsilon
+    \]
+\end{definition}
+
+
+\begin{lemma}
+    Every local minimum of a convex function is a global minimum. 
+\end{lemma}
+\begin{proof}
+    Suppose \(x\) is a local minimum but not global minimum  xxx 
+\end{proof}
+
+\begin{lemma}
+    If \(f \colon \R^d \to \R\) is convex and differentiable, and \(\nabla f(x) = 0\) 
+    (\emph{i.e.} \(x\) is a stationary point), then \(x\) is a global minimum. 
+\end{lemma}
+
+\begin{lemma}
+    If \(f \colon \R^d \to \R\) is differentiable, and \(x\) is a local minimum, then 
+    \(\nabla f(x) = 0\). 
+\end{lemma} 
+
+\begin{corollary}
+    If \(f\) is convex and differentiable, then \(x\) is a global minimum if and only 
+    if \(\nabla f(x) = 0\). 
+\end{corollary}
+
+
+\section{Convergence of GD for Smooth Convex Functions}
+
+
+
+\begin{lemma}[contraction lemma] 
+    If \(f\) is convex and \(\beta\)-smooth, and \(\eta \leq \frac{1}{\beta}\), then: 
+
+    \[
+        \norm{x_{t+1} - x^*}_2 \leq \norm{x_t - x^*}_2, \ \forall \ t   
+    \]
+\end{lemma}
+
+% \begin{proof}
+%     \begin{align*}
+%         \norm{x_{t+1} x^*}^2_2 &= \norm{  (x_t - x^*) - \eta \nabla f(x_t)  }^2_2 \\
+%         &= \norm{x_t - x^*}^2_2 - 2 \eta \innerProd{x_t - x^*}{\nabla f(x_t)} + \eta^2 \norm{\nablaf(x_t)}^2_2 \\ 
+%         & \leq \norm{x_t - x^*}^2_2 - 2 \eta \left(f(x_t) - f(x^*)\right) + 2 \eta \left(f(x_t) - f(x_{t+1})\right) \\ 
+%         &= \norm{x_t - x^*}^2_2 - 2 \eta \left(f(x_{t+1}) - f(x^*)\right) \\ 
+%         &\leq \norm{x_t - x^*}^2_2
+%     \end{align*}
+% \end{proof}
+
+\begin{theorem}[GD convergence for smooth convex functions]
+    If \(f\) is convex and \(\beta\)-smooth, and \(\eta \leq \frac{1}{\beta}\), then: 
+    \[
+        f(x_t) - f(x^*) \leq \frac{2 \norm{x_0 - x^*}_2^2}{\eta t}, \ \ \forall t \geq 1   
+    \]    
+\end{theorem}
+
+
+
+\section{Convergence of GD for smooth and strongly convex functions}
+
+\begin{definition}[strong convexity]
+    \(f \colon \R^d \to \R\) is \(\alpha\)-strongly convex (\(\alpha > 0\)) if 
+    \(f(x) - \frac{\alpha}{2} \norm{\alpha}_2^2\) is convex. 
+\end{definition}
+
+\begin{lemma}[first-order \& second-order characterization of strong convexity]
+    ww  
+\end{lemma}
+
+ll

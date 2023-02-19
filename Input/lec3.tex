@@ -166,8 +166,48 @@ SideNote: We say \(f \colon \R \to R\) is \(C-\)Lipschitz if \(\absolute{f(x) - 
 \begin{lemma}[Talagrend's Lemma]
     Let \(\phi \colon \R \to \R\) be a C-Lipschitz function. Then, 
     \[
-        R_S (\phi \ \odot \ \Hcal) \leq C \cdot R_S(\Hcal)  
+        R_S (\phi \ \circ \ \Hcal) \leq C \cdot R_S(\Hcal)  
     \]
-    where \(\phi \ \odot \ \Hcal = \{z \mapsto \phi(h(z)) \colon h \in \Hcal\}\).  
+    where \(\phi \ \circ \ \Hcal = \{z \mapsto \phi(h(z)) \colon h \in \Hcal\}\).  
 \end{lemma}
 
+\begin{theorem}[Margin-based generalization bound for binary classificaiton]
+    Let \(\Hcal\) be a function class mapping \(\X \to \R\). Fix \(\gamma > 0\). Then, 
+    for any \(\delta \in (0,1)\), with probability \(\geq 1 - \delta\) we have: 
+    \[
+        \sup_{h \in \Hcal} \left( L_\gamma (h) - L_{\gamma, S} (h) \right)  
+        \leq \frac{2}{\gamma} R_n(\Hcal) + \sqrt{ \frac{\log \frac{1}{\delta}}{2n} }  
+    \]
+
+    Also with probability \(\geq 1 - \delta\), we have: 
+
+    \[
+        \sup_{h \in \Hcal} \left( L_\gamma (h) - L_{\gamma, S} (h) \right)  
+        \leq \frac{2}{\gamma} R_S(\Hcal) + 3\sqrt{ \frac{\log \frac{1}{\delta}}{2n} }  
+    \]
+\end{theorem}
+
+
+\begin{proof}
+    \begin{align*}
+        G_\gamma &= \{ (x,y) \mapsto \ell_\gamma (yh(x)) \colon h \in \Hcal \} \\ 
+                 &= \{ (x,y) \mapsto \ell_\gamma (\hat{h}(x, y)) \colon \hat{h} \in \hat{\Hcal}  \} \\ 
+                 &= \ell_\gamma \circ \hat{\Hcal}
+    \end{align*}
+    where \(\hat{\Hcal} = \{ (x,y) \to yh(x) \colon h \in \Hcal \}\). 
+    \begin{align*}
+        R_S(\hat{\Hcal}) &= \expec_{\vec{\sigma}} \midBrac{\sup_{h \in \Hcal} \sampleAverage 
+        \sigma_i y_i h(x_i)} \\ 
+                         &= \expec_{\vec{\sigma}} \midBrac{\sup_{h \in \Hcal} \sampleAverage 
+                         \sigma_i h(x_i)} \\ 
+                         &= R_S (\Hcal)
+    \end{align*}
+
+    By Talagrend's lemma, \(R_S(G_\gamma) \leq \frac{1}{\gamma} R_S(\hat{\Hcal}) = \frac{1}{\gamma}
+    R_S(\Hcal)\). 
+
+    Completes the proof by applying the generalization bound for \(G_\gamma\) 
+    
+
+    \color{red} What generalization bound?
+\end{proof}
