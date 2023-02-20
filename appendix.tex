@@ -1,0 +1,81 @@
+
+\part{Appendix}
+\chapter{Calculus}
+
+\section{Taylor Expansion} 
+
+In 1-dimension, for a function \(f \colon \R \to \R\), the taylor expansion of \(f\) at a point 
+\(x_0\) can be expressed as: 
+
+\[
+    f(x) \approx f(x_0) + f'(x_0) (x - x_0) + \frac{1}{2} f'' (x_0) (x - x_0)^2 + \cdots 
+    + \frac{1}{k!} f^{(k)}(x_0) (x - x_0)^k + \cdots 
+\]
+
+In particular, we call the \textbf{approximation error}, or equivalently, \textbf{remainder}
+as: 
+
+\[
+    f(x) - f_{k, x_0} (x) = \frac{1}{(k+1)!} f^{(k+1)} (\xi) (x - x_0)
+\]
+
+where \(\xi\) is between \(x_0\) and \(x\). 
+
+
+Let's do some extension to \textbf{multivariate} functions where \(f \colon \R^d \to \R\). 
+
+The taylor expansion at \(x_0\) can be expressed as: 
+
+\[
+    f(x) \approx f(x_0) + \innerProd{\nabla f(x_0)}{ x - x_0} + 
+    \frac{1}{2}(x - x_0)^T \nabla^2 f(x_0) (x - x_0) + \cdots 
+\] 
+
+Similarly, we can also have remainder: 
+
+\[
+    f(x) - f(x_0) - \innerProd{\nabla f(x_0)}{ x - x_0} 
+    =  \frac{1}{2} (x - x_0)^T \nabla^2 f(\xi) (x - x_0)
+\]
+
+where \(\xi = x_0 + t (x - x_0)\), for some \(t \in [0,1]\). 
+
+\textbf{Fundamental Theorem of Calculus}
+
+in 1-d: 
+
+\[
+    f(x) - f(x_0) = \int_{x_0}^{x} f'(t) dt
+\]
+
+in multivariate: 
+
+\[
+    f(x) - f(x_0) = \int_0^1 \innerProd{\nabla f(x_0 + t(x - x_0))}{x - x_0} dt 
+\]
+
+\section{Linear Algebra}
+
+\begin{definition} Let \(A \in \R^{d \times d}\)
+    \begin{itemize}
+        \item Eigenvalue, eigenvector: \(A \vec{v} = \lambda \vec{v}\), \(\vec{v} \neq 0\)
+        \item If \(A\) is symmetric, it has \(d\) real eigenvalues: 
+        \[
+            \lambda_{\text{max}} (A) = \lambda_1 (A) \geq \lambda_2 (A) \geq \cdots \geq \lambda_d(A)
+            = \lambda_{\text{min}} (A)  
+        \]
+        \item Spectral norm: \(\norm{A}_2 = \sup_{\norm{v} = 1} \norm{Av}_2 = 
+        \sup_{\norm{u}=\norm{v}=1} \absolute{u^T A v}\)
+        
+        If \(A\) is symmetric, \(\norm{A}_2 = \max_i \absolute{\lambda_i (A)} = \max \{
+            \absolute{\lambda_1 (A), \lambda_d (A)}\}\)
+
+        \item PSD matrix: \(A \succeq 0\) if \(A\) is symmetric and \(\lambda_{\text{min}} (A)\geq 0\), 
+        or equivalently: \(A\) is symmetric and \(v^T A v \geq 0\), for all \(v \in \R^d\). 
+        
+        Moreover, we write \(A \succeq B\) if \(A - B \succeq 0\), \(\lambda_{\text{min}}(A) \cdot I \preceq A 
+        \lambda_{\text{max}}(A) \cdot I\)
+    \end{itemize}
+\end{definition}
+
+

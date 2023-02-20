@@ -1,15 +1,37 @@
 \part{Optimization}
 
-\chapter{Gradient Descent}
 
-In iterative algorithm, we are concerned with 
+\chapter{Gradient Descent}
+Please refer to appendix 1 and 2 for a basic calculus and linear algebra recap at first. 
+
+
+
+Gradient Descent is an iterative algorithm, where we are concerned with 
 \[
    \text{min}_{x \in \R^d} f(x)  
 \]
 
+The algorithm starts at \(x_0 \in \R^d\) and iteratively update the variable 
+\(x_1, x_2, \ldots\). 
 
-some 
+When the point is at \(x_t\), we can do 1st-order Taylor expansion: 
 
+\[
+    f(x_t + \Delta x) \approx f(x_t) + \innerProd{\nabla f(x_t)}{ \Delta x} + \cdots 
+\]
+
+
+In order to decrease \(f\) as much as possible, we can choose \(\Delta x // - \nabla f(x_t)\). 
+
+\begin{remark}
+    \[
+        \inf_{\norm{\Delta x}_2 \leq \epsilon} \innerProd{a}{\Delta x} = - \epsilon \norm{a}_2  
+    \]
+    the optimum occurs at \(\Delta x = \epsilon \frac{a}{\norm{a}_2}\)
+\end{remark}
+
+
+This motivates \textbf{Gradient Descent}(GD). 
 
 \[
     x_{t+1} = x_t - \eta \nabla f(x_t), \ t = 0,1,2,\ldots
@@ -46,9 +68,22 @@ Error of 1st-order Taylor:
 \begin{lemma}
     If \(f\) is \(\beta\)-smooth, then: 
     \[
-        \absolute{ f(y) - f(x) - \innerProd{a}{b}}  \leq \frac{\beta}{2} \lVert x - y\rVert_2^2  
+        \absolute{ f(y) - f(x) - \innerProd{\nabla f(x)}{y - x}}  \leq \frac{\beta}{2} \lVert x - y\rVert_2^2  
     \]
 \end{lemma}
+
+
+\begin{proof}
+    \begin{align*}
+        \absolute{f(y) - f(x) - \innerProd{\nabla f(x)}{ y - x }} 
+        &= \absolute{ \int_0^1 \innerProd{\nabla f(x + t(y-x))}{y - x} - \int_0^1 \innerProd{\nabla f(x)}{y-x}dt} \tag*{FTC} \\ 
+        &= \absolute{\int_0^1 \innerProd{\nabla f(x + t(y-x)) - \nabla f(x)}{y-x}dt} \\ 
+        &\leq \int_0^1 \norm{\nabla f(x + t(y-x)) - \nabla f(x)}_2 \norm{y-x}_2 \tag*{Cauchy-Schwardz} \\ 
+        &\leq \int_0^1 \beta \cdot \norm{t(y-x)}_2 \cdot \norm{y-x}_2 dt \tag*{beta - smooth}  \\ 
+        &= \beta \norm{y-x}_2^2 \cdot \int_0^1 t dt \\ 
+        &= \frac{\beta}{2} \norm{y-x}_2^2 
+    \end{align*}
+\end{proof}
 
 
 \begin{lemma}[Descent Lemma]
@@ -64,6 +99,12 @@ Error of 1st-order Taylor:
         f(x_{t+1}) &\leq f(x_t) +
     \end{align*}
 \end{proof}
+
+
+\begin{remark}
+    Descent Lemma shows that every step in a \(\beta-\)smooth function \(f\) decreases 
+    the function value. 
+\end{remark}
 
 
 \begin{corollary}
@@ -185,6 +226,11 @@ Let's see the common loss functions that are convex in first argument. (\(y \in 
         \norm{x_{t+1} - x^*}_2 \leq \norm{x_t - x^*}_2, \ \forall \ t   
     \]
 \end{lemma}
+
+\begin{remark}
+    In addition to the descent lemma, contraction lemma tells us that not only the function value 
+    decreases, the next step's \(x\) always gets closer to the optimum point. 
+\end{remark}
 
 % \begin{proof}
 %     \begin{align*}
