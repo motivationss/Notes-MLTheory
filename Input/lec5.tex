@@ -96,7 +96,10 @@ Error of 1st-order Taylor:
 
 \begin{proof}
     \begin{align*}
-        f(x_{t+1}) &\leq f(x_t) +
+        f(x_{t+1}) &\leq f(x_t) + \innerProd{f(x_t)}{t_1 - t} + \frac{\beta}{2} \norm{t_1 - t}_2^2  \tag*{\text{previous lemma}} \\ 
+        &=f(x_t) + \innerProd{f(x_t)}{- \eta \nabla f(x_t)} + \frac{\beta}{2} \norm{- \eta \nabla f(x_t)}_2^2 \\ 
+        &= f(x_t) - \left( \eta - \frac{\beta}{2} \eta^2 \right) \norm{f(x_t)}_2^2 \\
+        &\leq f(x_t) - \frac{\eta}{2} \norm{f(x_t)}_2^2
     \end{align*}
 \end{proof}
 
@@ -196,18 +199,40 @@ Let's see the common loss functions that are convex in first argument. (\(y \in 
     Every local minimum of a convex function is a global minimum. 
 \end{lemma}
 \begin{proof}
-    Suppose \(x\) is a local minimum but not global minimum  xxx 
+    Suppose \(x\) is a local minimum but not global minimum, \emph{i.e.},  
+    \(\exists \ y\) s.t. \(f(y) < f(x)\). 
+
+    By convexity, for all \(\gamma \in (0, 1)\), 
+    \begin{align*}
+        f( (1- \gamma)x + \gamma y) 
+        &\leq (1 - \gamma) f(x) + \gamma f(y) \\ 
+        &\leq (1 - \gamma) f(x) + \gamma f(x) \\ 
+        &= f(x)
+    \end{align*}
+
+    As we take \(\gamma \to 0\), we have \(\norm{(1- \gamma) x + \gamma y - x}_2 \to 0\), 
+    yielding a contraction. 
 \end{proof}
+
+\begin{remark}
+    \color{red} Isn't it "As we take \(\gamma \to 1\), we have \(\norm{f\left((1- \gamma) x + \gamma y\right) - f(x)}_2 \to 0\), 
+    yielding a contraction."
+\end{remark}
 
 \begin{lemma}
     If \(f \colon \R^d \to \R\) is convex and differentiable, and \(\nabla f(x) = 0\) 
     (\emph{i.e.} \(x\) is a stationary point), then \(x\) is a global minimum. 
 \end{lemma}
 
+\begin{proof}
+    \(\forall \ y, f(y) \geq f(x) + \innerProd{\nabla f(x)}{y - x} = f(x)\)
+\end{proof}
+
 \begin{lemma}
     If \(f \colon \R^d \to \R\) is differentiable, and \(x\) is a local minimum, then 
     \(\nabla f(x) = 0\). 
 \end{lemma} 
+
 
 \begin{corollary}
     If \(f\) is convex and differentiable, then \(x\) is a global minimum if and only 
@@ -226,6 +251,21 @@ Let's see the common loss functions that are convex in first argument. (\(y \in 
         \norm{x_{t+1} - x^*}_2 \leq \norm{x_t - x^*}_2, \ \forall \ t   
     \]
 \end{lemma}
+
+\begin{proof}
+    \begin{align*}
+        \norm{x_{t+1} - x^*}^2_2 &= \norm{(x_{t} - x^*) - \eta \nabla f(x)}_2^2 \\ 
+        &= \norm{x_{t} - x^*}_2^2 - 2 \eta \innerProd{x_t - x^*}{\nabla f(x_t)} + 
+        \eta^2 \norm{\nabla f(x)}_2^2 \\ 
+        &\leq \norm{ x_t - x^* }_2^2 - 2 \eta \left(f(x_t) - f(x^*)\right) + 
+        2 \eta \left(f(x_t) - f(x^{t+1}) \right) \\ 
+        &= \norm{ x_t - x^* }_2^2 - 2 \eta \left(f(x_{t+1}) - f(x^*)\right) \\ 
+        &\leq \norm{ x_t - x^* }_2^2
+    \end{align*}
+
+    Where the step from 2nd to 3rd line relies on the convexity assumption and the 
+    descent lemma. 
+\end{proof}
 
 \begin{remark}
     In addition to the descent lemma, contraction lemma tells us that not only the function value 
@@ -249,17 +289,119 @@ Let's see the common loss functions that are convex in first argument. (\(y \in 
     \]    
 \end{theorem}
 
+\begin{proof}
+    Let \(\delta_t = f(x_t) - f(x^*)\). \\ 
+    By the descent lemma, 
+    \begin{align*}
+        \delta_{t+1} \leq \delta_t - \frac{\eta}{2} \norm{\nabla f(x)}_2^2 \tag{1}
+    \end{align*}
+
+    By convexity and contraction lemma, 
+    \begin{align*}
+        \delta_t \leq \innerProd{\nabla f(x_t)}{x_t - x^*} 
+        &\leq \norm{ \nabla f(x_t)} \norm{x_t - x^*} \\ 
+        &\leq \norm{ \nabla f(x_t)} \norm{x_0 - x^*} \tag{2}
+    \end{align*}
+
+    By putting (1) and (2) together, we have 
+    \[
+        \delta_{t+1} \leq \delta_t - \frac{\eta}{2} \left(\frac{\delta_t}{\norm{x_0 - x^*}_2}\right)^2  
+    \]
+
+    Diving this inequality by \(\delta_t \cdot \delta_{t+1}\), we can get the following: 
+    \[
+        \frac{1}{\delta_t} \leq \frac{1}{\delta_{t+1}} - \frac{\eta}{2 \norm{x_0 - x^*}_2}
+        \cdot \frac{\delta_t}{\delta_{t+1}} \leq \frac{1}{\delta_{t+1}} - \frac{\eta}{\norm{x_0 - x^*}_2}
+    \]
+    Taking the sum over \(t = 0, 1, \ldots, t - 1\): 
+    \[
+        \sum_{s=0}^{t-1} \left(\frac{1}{\delta_s} - \frac{1}{\delta_{s+1}} \right)
+        \leq -   \frac{\eta t}{2 \norm{x_0 - x^*}_2}
+    \]
+    which gives to the desired inequality: 
+    \[
+         \delta_t \leq \frac{2 \norm{x_0 - x^*}_2^2}{\eta t}
+    \]
+\end{proof}
+
+\begin{remark}
+    Let \(\eta = \frac{1}{\beta}\), we get \(\delta_t \leq \frac{2 \beta \norm{x_0 - x^*}_2^2}{t}\). 
+
+    To get \(\delta_t \leq \epsilon\), we need the step size \(t \geq \frac{2 \beta \norm{x_0 - x^*}_2^2}{\epsilon}\)
+\end{remark}
 
 
 \section{Convergence of GD for smooth and strongly convex functions}
 
 \begin{definition}[strong convexity]
     \(f \colon \R^d \to \R\) is \(\alpha\)-strongly convex (\(\alpha > 0\)) if 
-    \(f(x) - \frac{\alpha}{2} \norm{\alpha}_2^2\) is convex. 
+    \(f(x) - \frac{\alpha}{2} \norm{x}_2^2\) is convex. 
 \end{definition}
 
 \begin{lemma}[first-order \& second-order characterization of strong convexity]
-    ww  
+    \begin{enumerate}
+        \item first-order: If \\ \(f \colon \R^d \to \R\) is differentiable, then 
+        \(f\) is \(\alpha\)-SC if and only if: 
+        
+        \[
+            f(y) \geq f(x) + \innerProd{\nabla f(x)}{ y - x} + \frac{\alpha}{2} \norm{y-x}_2^2 
+            \ \forall \ x, y  
+        \]
+        \item second-order: If \(f \colon \R^d \to \R\) is twice continuously differentiable, 
+        then \(f\) is \(\alpha\)-SC if and only if: 
+        \[
+            \nabla^2 f(x) \succeq \alpha I, \ \forall x   
+        \] 
+    \end{enumerate} 
 \end{lemma}
 
-ll
+\begin{eg}
+    \(f(x) = \frac{1}{2}x^T A x\) for symmetric \(A\). Then we know \(\nabla^2 f(x) = A\). 
+
+    If \(\lambda_{\text{min}}(A) > 0\), then \(f\) is \(\lambda_{\text{min}}(A)-\text{SC}\), 
+    and \(\lambda_{\text{min}}-\text{smooth}\). 
+\end{eg}
+
+\begin{theorem}[GD convergence for smooth and strongly-convex functions]
+    If \(f\) is \(\beta\)-smooth and \(\alpha-\text{SC}\), and \(\alpha \leq \frac{1}{\beta}\), 
+    then 
+    \begin{enumerate}
+        \item \(\norm{x_{t+1} - x^*}_2^2 \leq (1 - \alpha \eta) \cdot \norm{x_t - x^*}_2^2, \ \forall t\). 
+        \item \(f(x_t) - f(x^*) \leq \frac{\beta}{2} (1 - \alpha \eta)^t \norm{x_0 - x^*}_2^2\). 
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{proof}
+    \begin{align*}
+        \norm{x_{t+1} - x^*}_2^2 &= \norm{ (x_t - x^*) - \eta \nabla f(x_t)}_2^2 \\ 
+        &= \norm{ x_t - x^*}_2^2 - 2 \eta \innerProd{x_t - x^*}{\nabla f(x_t)} + \eta^2 
+        \norm{ \nabla f(x_t) }_2^2 \\ 
+        &\leq \norm{ x_t - x^*}_2^2 - 2 \eta \left( f(x_t) - f(x^*) + \frac{\alpha}{2}
+        \norm{x_t - x^*}^2_2\right) + 2 \eta \left( f(x_t) - f(x_{t+1}) \right) \\ 
+        &= (1 - \alpha \eta) \norm{x_t - x^*}_2^2 - 2 \eta \left( f(x_{t+1}) - f(x^*) \right) \\ 
+        &\leq (1 - \alpha \eta)
+    \end{align*}
+    which finishes (1). To see how we prove (2), we proceed as follows: 
+
+    By (1), we have \(\norm{x_t - x^*}_2^2 \leq (1 - \alpha \eta)^t \norm{x_0 - x^*}_2^2\), then: 
+    \begin{align*}
+        f(x_t) - f(x^*) &\leq \innerProd{\nabla f(x^*)}{x_t - x^*} + \frac{\beta}{2} \norm{x_t - x^*}_2^2 \\ 
+        &\leq \frac{\beta}{2} (1 - \alpha \eta)^t \norm{x_0 - x^*}_2^2 
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    If \(\eta = \frac{1}{\beta}\): 
+    \begin{align*}
+        \norm{x_t - x^*}_2^2 &\leq \left(1 - \frac{\alpha}{\beta}\right) \norm{x_0 - x^*}_2^2 \\
+        &= \left(1 - \frac{1}{\kappa}\right)  \norm{x_0 - x^*}_2^2 \\ 
+        &\leq e^{- \frac{t}{\kappa}}  \norm{x_0 - x^*}_2^2
+    \end{align*}
+
+    where we set \(\kappa = \frac{\beta}{\alpha}\) to be the ``condition number'' and the last 
+    line comes from \(1 - \frac{1}{\kappa} \leq e^{- \frac{1}{\kappa}}\). 
+
+    Alternatively, if we want \( \norm{x_t - x^*}_2^2 \leq \epsilon\), we need to set 
+    the step size \(t \geq \kappa \log \frac{\norm{x_0 - x^*}_2^2}{\epsilon}\). 
+\end{remark}

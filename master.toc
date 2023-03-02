@@ -19,8 +19,8 @@
 \contentsline {chapter}{\numberline {6}Gradient Descent}{19}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Convex Optimization}{20}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Convergence of GD for Smooth Convex Functions}{22}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Convergence of GD for smooth and strongly convex functions}{22}{section.6.3}%
-\contentsline {part}{III\hspace {1em}Appendix}{23}{part.3}%
-\contentsline {chapter}{\numberline {7}Calculus}{24}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Taylor Expansion}{24}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Linear Algebra}{25}{section.7.2}%
+\contentsline {section}{\numberline {6.3}Convergence of GD for smooth and strongly convex functions}{23}{section.6.3}%
+\contentsline {part}{III\hspace {1em}Appendix}{25}{part.3}%
+\contentsline {chapter}{\numberline {7}Calculus}{26}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Taylor Expansion}{26}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Linear Algebra}{27}{section.7.2}%

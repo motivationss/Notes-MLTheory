@@ -1,10 +1,10 @@
 # Fdb version 3
-["biber master"] 1676920263 "master.bcf" "master.bbl" "master" 1676921088
-  "master.bcf" 1676921087 107079 f9911133cd0597fa68874376d1af1bbf "pdflatex"
+["biber master"] 1677730339 "master.bcf" "master.bbl" "master" 1677739041
+  "master.bcf" 1677739040 107079 f9911133cd0597fa68874376d1af1bbf "pdflatex"
   (generated)
   "master.bbl"
   "master.blg"
-["pdflatex"] 1676921083 "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" "master.pdf" "master" 1676921088
+["pdflatex"] 1677739036 "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" "master.pdf" "master" 1677739041
   "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" 1676844195 1525 5ba69ae391a129548a8365b35db72225 ""
   "/Users/gaotangli/Library/texlive/2022/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk" 1658465862 6964 deca5f580be6797ac3e5a87729aa48db ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -369,16 +369,16 @@
   "Input/lec1.tex" 1675746584 9875 2ff70d396d602ab71ef61bcd0671f4e3 ""
   "Input/lec2.tex" 1676067551 13857 4ff576146372ac2ab318239a64a10746 ""
   "Input/lec3.tex" 1676317287 7755 82351f0647ce2360e265ab8e3fa7299d ""
-  "Input/lec5.tex" 1676921077 8329 e8e9da75dfabcff9f68ded2139c4d067 ""
+  "Input/lec5.tex" 1677739030 14410 275205a64255294b9011cdfcd7ce8c6c ""
   "Math.tex" 1676322729 3053 e53c2705958055f5bd3a84fa4b4fd269 ""
   "appendix.tex" 1676846844 2395 dc199606d05728a30fcb13993f483f83 ""
   "header.tex" 1675656803 10727 cb096fbff026fac9a0792a2d58be20f2 ""
-  "master.aux" 1676921087 23354 c05ce3a20426d5a22b5118949ef7e69a "pdflatex"
-  "master.bbl" 1676920265 466 ee04f40f768daeed26442158e95aba61 "biber master"
-  "master.out" 1676921087 4233 7032d41a03e5aa2fb467c4af461e5950 "pdflatex"
-  "master.run.xml" 1676921087 2318 54cfa3ba94777505e137b706f4dd1953 "pdflatex"
+  "master.aux" 1677739040 24731 3b7303ce0803d43a1bef2dbfedbda435 "pdflatex"
+  "master.bbl" 1677730354 466 ee04f40f768daeed26442158e95aba61 "biber master"
+  "master.out" 1677739040 4233 7032d41a03e5aa2fb467c4af461e5950 "pdflatex"
+  "master.run.xml" 1677739040 2318 54cfa3ba94777505e137b706f4dd1953 "pdflatex"
   "master.tex" 1676844195 1525 5ba69ae391a129548a8365b35db72225 ""
-  "master.toc" 1676921087 2059 92791fa2a4e5eada24ae93d0ba48e731 "pdflatex"
+  "master.toc" 1677739040 2059 edf24d2de47e24e46f6a03baa7e144b2 "pdflatex"
   (generated)
   "master.aux"
   "master.bcf"
