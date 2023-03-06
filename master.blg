@@ -1,9 +1,0 @@
-[4] Config.pm:307> INFO - This is Biber 2.17
-[6] Config.pm:310> INFO - Logfile is 'master.blg'
-[111] biber-darwin:340> INFO - === Wed Mar  1, 2023, 22:12:33
-[133] Biber.pm:418> INFO - Reading 'master.bcf'
-[304] Biber.pm:972> INFO - Found 0 citekeys in bib section 0
-[328] bbl.pm:654> INFO - Writing 'master.bbl' with encoding 'UTF-8'
-[329] bbl.pm:757> INFO - Output to master.bbl
-[329] Biber.pm:130> WARN - The file 'master.bcf' does not contain any citations!
-[329] Biber.pm:132> INFO - WARNINGS: 1

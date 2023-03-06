@@ -1,0 +1,368 @@
+
+
+\begin{eg}[Linear Regression] $x_1,...,x_n \in \R^d$, $y_1,...,y_n \in \R$, $\Hcal = \{ x \mapsto w^Tx : w \in \R^d \}$
+
+    ERM minimizes: 
+    \begin{align*}
+        L(w) &= \frac{1}{2n} \sum_{i=1}^n (w^Tx_i - y)^2 \\ 
+        &= \frac{1}{2n} \norm{XW - y}_2^2  \\
+        &= \frac{1}{2n} (w^TX^TXw -2y^TXw+y^Ty) 
+    \end{align*}
+
+    where $X = [x_1^T \ldots x_n^T]^T \in \R^{n \times d}$, $y = [y_1 \ldots y_n]^T \in \R^n$.
+
+    We can calculate gradient and Hessian of \(L(w)\) as follows: 
+    \begin{align*}
+        \nabla L(w) &= \frac{1}{2n} \left(
+         2 X^T X W - 2y^TX + y^Ty \right) \\ 
+         \nabla^2 L(w) &= \frac{1}{n} X^TX \succeq 0 
+    \end{align*}
+
+    Let \(\beta = \lambda_{\text{max}} (\frac{1}{n}X^TX)\) and 
+    \(\alpha = \lambda_{\text{min}}(\frac{1}{n}X^TX)\)
+
+    Then \(L\) is \(\beta-\)smooth and \(\alpha-\)SC (if \(\alpha > 0\)). 
+\end{eg}
+
+\begin{eg}[Logistic Regression] \(y_i \in \{\pm 1\}\) 
+
+    $$L(w) = \frac{1}{n}\sum_{i=1}^n \log \left(1 + e^{- y_i w^Tx_i}\right)$$
+
+    We calculate the gradient and Hessian as above: 
+
+    $$\nabla L(w) = \frac{1}{n}\sum_{i=1}^n \frac{e^{-y_i w^T x_i (-y_i x_i)}}{1+e^{-y_i w^T x_i}} \in \R^d$$
+
+    Note that \((\frac{e^z}{1 - e^z})' = \frac{e^z}{(1 + e^z)^2}\)
+
+    \begin{align*}
+        \nabla^2 L(w) &= \frac{1}{n}\sum_{i=1}^n \frac{e^{-y_i w^T x_i }}{(1 + e^{-y_i w^T x_i })^2} (-y_ix_i)(-y_ix_i)^T \\ 
+        &= \frac{1}{n}\sum_{i=1}^n \frac{e^{-y_i w^T x_i}}{(1 + e^{-y_i w^T x_i })^2} x_i x_i^T
+    \end{align*}
+
+    It turns out that $\frac{e^{-y_i w^T x_i}}{(1 + e^{-y_i w^T x_i })^2} \leq \frac{1}{4}$. Therefore,
+    $$\nabla^2 L(w) \preceq \frac{1}{n} \sum_{i=1}^n \frac{1}{4}x_ix_i^T = \frac{1}{4n}X^TX$$
+
+    and we conclude that $L$ is $\beta$-smooth with $\beta=\lambda_{max}(\frac{1}{4n}X^TX)$. \newline
+    
+    What about strong convexity? As \(\norm{w}_2 \to \infty\) and \(w^T x_i \neq 0\), then \(\frac{e^{-y_i w^T x_i}}{(1 + e^{-y_i w^T x_i })^2} \to 0\). Therefore, \( \exists \ w \text{ s.t. }\nabla^2 L(w) \prec \alpha I, \forall \alpha > 0\)
+\end{eg}
+
+\section{Linear Convergence under PL condition}
+
+\begin{definition}[Poly-Lojasiewicz(PL) condition]
+    A differentiable function \(f \colon \R^d \to \R\) satisfies \(\alpha-PL\) condition 
+    (\(\alpha > 0\)) if 
+
+    \[
+        \norm{\nabla f (x)}_2^2 \geq 2 \alpha \left( f(x) - f(x^*) \right), \ \forall \ x \in \R^d   
+    \]
+    where \( x^* = \text{argmin}_{x \in \R^d} f(x)\). 
+\end{definition}
+
+\begin{lemma}[\(\alpha-SC \Rightarrow \alpha-PL\)]
+    If \(f\) is differentiable and \(\alpha-SC\), then \(f\) is \(\alpha-PL\). 
+\end{lemma}
+
+
+\begin{proof}
+    By the 1st-order characterization of \(\alpha-SC\): 
+
+    \begin{align*}
+        f(y) &\geq f(x) + \innerProd{\nabla f(x)}{y - x} + \frac{\alpha}{2} \norm{y - x}_2^2, \forall \ x,y \\ 
+        \min_y \{ f(y)  \} &\geq \min_{y} \{ f(x) +  \innerProd{\nabla f(x)}{y - x} +\frac{\alpha}{2} \norm{y - x}_2^2 \} \\ 
+        f(x^*) &\geq f(x) + \innerProd{\nabla f(x)}{- \frac{1}{\alpha}\nabla f(x)} 
+        + \frac{\alpha}{2} \cdot \frac{1}{\alpha^2} \norm{ \nabla f(x) }_2^2 \\ 
+        &= f(x) - \frac{1}{2 \alpha} \norm{ \nabla f(x) }_2^2
+    \end{align*}
+
+    where the second last line comes from the fact that optimal \(y = x - \frac{1}{\alpha} \nabla f(x)\). 
+
+    \color{red} why?
+
+    % \begin{align*}
+    %     f(y) \geq f(x) + \innerProd{\nabla f(x)}{y - x} + \frac{\alpha}{2} \norm{y - x}_2^2, \forall \ x,y  
+    %     % \min_y \{ f(y)  \} &\geq \min_{y} \{ f(x) + \frac{\alpha}{2} \norm{y - x}_2^2 \}  
+    %     % f(x^*) &\geq f(x) + 
+
+    % \end{align*}
+    
+
+
+\end{proof}
+
+
+\begin{remark}
+    \(\alpha-PL\) is a weaker condition than \(\alpha-SC\), where the latter is a necessary 
+    condition for the former. 
+\end{remark}
+
+\begin{theorem}
+    [Convergence of GD for smooth and PL functions]
+
+If \(f\) is \(\beta-\)smooth and \(\alpha-\)PL, and \(\eta \leq \frac{1}{\beta}\), then: 
+
+\[
+    f(x_t) - f(x^*) \leq (1 - \alpha \eta)^t \left( f(x_0) - f(x^n) \right)
+\]
+\end{theorem}
+
+\begin{proof}
+    \begin{align*}
+        f(x_{t+1}) - f(x^*) &\leq f(x_t) - f(x^*)  - \frac{\eta}{2} \norm{\nabla f(x_t)}^2_2  \tag*{Descent Lemma} \\ 
+        &\leq f(x_t) - f(x^*) - \frac{\eta}{2} \cdot 2 \alpha (f(x_t) - f(x^*)) \tag*{alpha-PL} \\ 
+        &= (1 - \eta \alpha) (f(x_t) - f(x^*))
+    \end{align*}
+\end{proof}
+
+\subsection*{Properties of PL functions} 
+
+\begin{enumerate}
+    \item Not necessarily convex, \emph{e.g.}, \(f(x) = x^2 + 3 \sin^2 x\) 
+    \item Can have multiple global minima (This is on the contrary to \(\alpha-SC\) functions, where 
+    its global minima is unique)
+    \item All stationary points are global minima 
+    \begin{align*}
+        \nabla f(x) = 0 &\Rightarrow 0 = \norm{\nabla f(x)}_2^2 \geq 2 \alpha \left(f(x) - f(x^*)\right) \\ 
+        &\Rightarrow f(x) \leq f(x^*) \\ 
+        &\Rightarrow f(x) = f(x^*)
+    \end{align*}
+\end{enumerate}
+
+\begin{eg}[Overparametrized Linear Regression]
+    We start off in same setting as the previous linear regression example (that is, the same symbols, gradient, and Hessian), etc. However, here $n << d$ -- there are many more parameters than observations. 
+
+In order for $L$ to be SC, we need \(\lambda_{\text{min}} (X^TX) > 0\), where \(X^T X\) is a \(d \times d\) matrix. 
+
+But if \(n < d\), $X^TX$ is not full-rank -- we have rank(\(XX^T\)) \(\leq n < d\). As non-full-rank matrices have at least one zero singular value, this implies that \(\lambda_{\text{min}} = 0\) and thus \(L\) is not SC. 
+
+Fortunately, we can still show the PL condition in this case. 
+
+Assume rank(\(X\)) = \(n\), (\(x_1, \ldots, x_n\) are linearly independent), then 
+
+\[
+\exists \ w^* \in \R^d \text{ s.t. } (w^*)^T x_i = y_i, \forall i 
+\]
+
+In fact, infinite $w^*$ of this form exist and lie in the same subspace of $\R^d$. We will show, where $XX^T \in \R^{n\times n}$, that: 
+
+\[
+\norm{\nabla L(W)}_2^2 \geq 2 \lambda_{\text{min}} (\frac{1}{n} X X^T) \cdot (L(w) - L(w^*))
+\]
+
+To prove this, 
+\begin{align*}
+    \norm{\nabla L(W)}_2^2 \ & = \frac{1}{n} \norm{X^T(Xw - y)}_2^2 \\ 
+    &= \frac{1}{n^2} (Xw - y)^T XX^T (Xw - y) \\ 
+    &\geq \frac{1}{n^2} \lambda_{\text{min}} (XX^T) \cdot \norm{Xw - y}_2^2 \\ 
+    &= \frac{2}{n} \lambda_{\text{min}} (XX^T) \cdot (L(w) - L(w^*))
+\end{align*}
+
+and so $L$ satisfies the PL condition. 
+
+\color{red} the second last line why? 
+
+\end{eg}
+
+
+\chapter{Non-Convex Optimization}
+
+
+\section{Basics}
+We focus on unconstrained optimization problems 
+
+\[
+    \min_{x \in \R^d} f(x)
+\]
+
+\underline{Assume}: \(f\) is \(\beta\)-smooth and twice continuously differentiable. 
+
+\begin{definition}[stationary point]
+    \(x\) is a stationary point of \(f\) if \(\nabla f(x) = 0\). \(x\) is an 
+    \(\epsilon\)-stationary point if \(\norm{\nabla f(x)}_2 \leq \epsilon\). 
+\end{definition}
+
+
+\begin{theorem}[Convergence of GD to an \(\epsilon\)-stationary point]
+    If \(f\) is \(\beta\)-smooth, then for any \(\epsilon > 0\), 
+    GD with \(\eta \leq \frac{1}{\beta}\) finds an \(\epsilon-\)stationary point 
+    within \(T = \frac{2 \left( f(x_0) - f(x^*)\right)}{\eta \epsilon^2}\), \emph{i.e.}: 
+
+    \begin{align*}
+        \min_{0 \leq t \leq T} \norm{\nabla f(x_t)}_2 \leq \epsilon
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    By descent lemma: 
+    \begin{align*}
+        f(x_t) - f(x_{t+1}) \geq \frac{\eta}{2} \norm{\nabla f(x_t)}^2_2
+    \end{align*}
+    Sum over \(t = 0, 1, \ldots, T-1\): 
+    \[
+        f(x_0) - f(x^*) \geq f(x_0) - f(x_T) \geq \frac{\eta}{2} \sum_{t=0}^{T-1} \norm{\nabla f(x_t)}^2_2
+    \]
+
+    \[
+        \frac{1}{T} \sum_{t=0}^{T-1}\norm{\nabla f(x_t)}^2_2 \leq \frac{2}{\eta T}(f(x_0)-f(x^*)) = \epsilon^2
+    \]
+
+    \[
+        \min_{0 \leq t \leq T-1} \norm{\nabla f(x_t)}^2_2 \leq \epsilon
+    \]
+
+    and this gives us our result. Note when \(\eta = \frac{1}{\beta}\), we have that \(T = \frac{2 \beta (f(x_0) - f(x^*))}{\epsilon^2}\).
+\end{proof}
+
+\begin{remark}
+    What does this mean for non-convex functions? 
+
+\begin{itemize}
+    \item Gradient descent is unlikely to go to a local maximum.
+    \item Local minima are likely the best we can hope for in general.
+\end{itemize}
+
+\end{remark}
+
+
+\begin{definition}[saddle point]
+    A saddle point is a stationary point but not a local minimum or local maximum. Equivalently, \(x\) is a saddle point of \(f\) if \(\nabla f(x) = 0\), and \(\forall \ \epsilon > 0\), \(\exists y, z \) s.t. \(\norm{y-x}_2 \leq \epsilon\), \(\norm{z - x}_2 \leq \epsilon\) and \(f(y)  < f(x) < f(z)\). 
+\end{definition}
+
+
+\begin{definition}[strict saddle point]
+    A saddle point \(x\) of \(f\) is strict if 
+    \(\lambda_{\text{min}} (\nabla^2 f(x)) < 0\)
+\end{definition}
+
+
+\begin{eg}
+    
+    We have the following two functions:
+
+\begin{align*}
+    f_1(x_1, x_2) = x_1^2 - x_2^2 \\  
+    f_2(x_1, x_2) = x_1^2 - x_2^3
+\end{align*}
+
+With some calculations, we get that 
+\begin{align*}
+    &\nabla f_1(x_1, x_2) = (2x_1 \;\; -2x_2)^T  \\
+    &\nabla^2 f_1(x_1, x_2) = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}
+\end{align*}
+
+At $(0,0)$, the gradient is $0$, but $\lambda_{min}(\nabla^2 f_1(0,0)) < 0$. So $(0,0)$ is a strict saddle point of $f_1$.
+
+But with $f_2$, 
+\begin{align*}
+    &\nabla f_2(x_1, x_2) = (2x_1 \;\; -3x_2^2)^T  \\
+    &\nabla^2 f_2(x_1, x_2) = \begin{bmatrix} 2 & 0 \\ 0 & -6x_2 \end{bmatrix}
+\end{align*}
+
+At $(0,0)$, the gradient is $0$, but $\lambda_{min}(\nabla^2 f_2(0,0)) = \begin{bmatrix} 2 & 0 \\ 0 & 0 \end{bmatrix} \succeq 0$. So $(0,0)$ is a non-strict saddle point of $f_2$.
+\end{eg}
+
+
+\section{Second-order stationary point}
+
+\begin{definition}[second-order stationary point] 
+    \(x\) is a second-order stationary point (SOSP) of \(f\) if \(\nabla f(x) = 0\) and 
+    \(\nabla^2 f(x) \succeq 0\). \(x\) is an \((\epsilon_1, \epsilon_2)\)-SOSP if 
+    \(\norm{\nabla f(x)}_2 \leq \epsilon_1\), \(\nabla^2 f(x) \succeq - \epsilon_2 I \)
+\end{definition}
+
+\begin{definition}[Hessian-Lipschitzness]
+    \(f\) is \(\rho-\)Hessian-Lipschitz if 
+    \[
+        \norm{\nabla^2 f(x) - \nabla^2 f(y)}_2 \leq \rho \norm{x - y}_2, \ \forall \ x,y \in \R^d
+    \]
+    Equivalently, 
+    \[
+    \absolute{ f(y) -  \left( \innerProd{\nabla f(x)}{y-x} + \frac{1}{2} (y - x)^T \nabla^2 f(x) (y - x) \right)} \leq \frac{\rho}{6} \norm{x - y}_2^3, \ \forall \ x, y \in \R^d
+    \]
+\end{definition}
+
+
+\subsection*{Finding \(\epsilon-\)SOSP using Hessian information}
+
+Suppose \(\norm{\nabla f(x_t)}_2 < \epsilon\) and \(\lambda_{\text{min}}(\nabla^2 f(x_t)) < - \epsilon_2\) 
+
+\begin{align*}
+    f(x_t + v) = f(x_t) + \innerProd{\nabla f(x_t)}{v} + \frac{1}{2} v^T \nabla^2 f(x_t)v \pm \frac{\rho}{6} \norm{v}_2^3
+\end{align*}
+
+We want to find \(v\) such that \(v^T \nabla^2 f(x_t)v\) is minimized. 
+An intuitive solution is to use the bottom eigenvector. 
+
+\begin{align*}
+    \text{Recap:}   &\sup_{\norm{v}_2 = 1} v^TAv = \lambda_{\text{max}}(A), \text{ achieved by top eigenvector} \\ 
+    &\inf_{\norm{v}_2 = 1} v^TAv = \lambda_{\text{min}}(A), \text{ achieved by bottom eigenvector}
+\end{align*}
+
+\begin{algorithm}
+    \centering
+        \caption{GD + Eigenvector Computation}
+        \begin{algorithmic}[1]
+            \STATE Initialize $x_0 \in \R^d$
+            \FOR{$t=0,1,2...$}
+                \IF{$||\nabla f(x_t)||_2 > \epsilon$}
+                \STATE $x_{t+1} := x_t - \eta \nabla f(x_t)$
+                \ELSE
+                \STATE $v_t := \text{Eigenvector of $\nabla^2 f(x_t)$ corresponding to the smallest eigenvalue}$
+                \STATE $v_t := v_t/||v_t||_2$
+                \STATE $x_{t+1} := \begin{cases}
+                            x_t + \gamma v_t & \text{if } f(x_t + \gamma v_) \leq f(x_t - \gamma v_t)\\
+                            0 & \text{otherwise}
+                                    \end{cases}$
+                \ENDIF
+            \ENDFOR
+        \end{algorithmic}
+\end{algorithm}
+
+
+\begin{theorem}[GD + eigenvector finds SOSP]
+    Assume that \(f\) is \(\beta\)-smooth and \(\rho-\)Hessian Lipschitz. Fix \(\epsilon > 0\). Let \(\eta = \frac{1}{\beta}\) and \(\gamma = \sqrt{\frac{\epsilon}{\rho}}\). 
+
+    Then within \(T = \frac{3 \beta \left( f(x_0) - f(x^*)\right)}{\epsilon^2}\) iterations, at least one of the iterates \(x_t\) \(0 \leq t \leq T\) is an \((\epsilon, \sqrt{\rho \epsilon})\)-SOSP.
+\end{theorem}
+
+\begin{proof}
+    Proof by contradiction. Assume that all iterates \(x_0, \ldots, x_T\) are not \((\epsilon, \sqrt{\rho \epsilon})\)-SOSP. Then we want to show we will have a sufficient decrease of \(f(x_t)\) in every iteration, and reach a contradiction. 
+
+    Case 1: \(\norm{\nabla f(x_t)}_2 > \epsilon\). 
+
+    By descent lemma: \( f(x_{t+1}) - f(x_t) \leq -\frac{\eta}{2} \norm{\nabla f(x_t)}^2_2 < - \frac{1}{2} \epsilon^2 = \frac{1}{2\beta}\epsilon^2\)
+
+    Case 2: \(\norm{\nabla f(x_t)}_2 \leq \epsilon\).
+
+    By our assumption that \(x_t\) is not an \((\epsilon, \sqrt{\rho \epsilon})\)-SOSP, we know \(\lambda_{\text{min}}(\nabla^2 f(x_t)) < - \sqrt{\rho \epsilon}\) 
+
+    By choice of \(v_t\): \(v^T_t \nabla^2 f(x_t) v_t = \lambda_{\text{min}}(\nabla^2 f(x_t)) < - \sqrt{\rho \epsilon}\). 
+
+    \begin{align*}
+        f(x_{t+1}) &= \text{min} \{f(x_t + \gamma v_t), f(x_t - \gamma v_t)  \} \\ 
+        &\leq f(x_t) + \text{min} \{ \innerProd{\nabla f(x_t)}{\gamma v_t}, \innerProd{\nabla f(x_t)}{- \gamma v_t} \} + \frac{1}{2} (\gamma v_t)^T \nabla^2 f(x_t) (\gamma v_t) + \frac{\rho}{6} \norm{\gamma v_t}_2^3 \\ 
+        &\leq f(x_t) + 0 + \frac{\gamma^2}{2} (- \sqrt{\rho \epsilon}) + \frac{\rho}{6} \gamma^3 \\ 
+        &= f(x_0) - \frac{1}{3} \sqrt{\frac{\epsilon^3}{\rho}} \tag*{let gamma = sqrt(ep/rho)} \\
+        &\leq f(x_t) - \frac{\epsilon^2}{3\beta} \tag*{beta >= sqrt(rho ep)} 
+    \end{align*}
+
+    In either case, function value decreases \(\geq \frac{\epsilon^2}{3 \beta}\). Then 
+    \[
+    T \leq \frac{f(x_0) - f(x^*)}{\frac{\epsilon^2}{3\beta}} = \frac{3 \beta (f(x_0) - f(x^*))}{\epsilon^2} 
+    \]
+\end{proof}
+
+\subsection*{Finding \(\epsilon-\)SOSP without using Hessian information}
+
+\textbf{Perturbed GD}: \(  x_{t+1} = x_t - \eta (\nabla f(x_t) + \xi_t)\)
+where \(\xi_t \sim \mathcal{N}(0, \frac{r^2}{d}I)\). 
+
+\begin{theorem}[Perturbed GD finds SOSP]
+    Assume \(f\) is \(\beta\)-smooth and \(\rho\)-Hessian-Lipschitz. 
+
+    Fix \(\epsilon > 0, \delta \in (0, 1)\). 
+
+    If we choose \(\eta = \frac{1}{\beta}\), \(r = \Tilde{O}(\epsilon)\) and run perturbed GD for \(T = O\frac{\beta (f(x_0) - f(x^*))}{\epsilon^2}\) iterations, then w.p. \(\geq 1 - \delta\), at least one of the iterates is an \((\epsilon, \sqrt{\rho \epsilon})\) SOSP. 
+\end{theorem}
+
+Intuition: a random perturbation will have a component that aligns with the bottom eigenvector of \(\nabla^2 f(x_t)\). 

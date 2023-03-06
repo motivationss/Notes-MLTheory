@@ -16,11 +16,16 @@
 \contentsline {chapter}{\numberline {5}Margin Theory}{16}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Basic Setups}{16}{section.5.1}%
 \contentsline {part}{II\hspace {1em}Optimization}{18}{part.2}%
-\contentsline {chapter}{\numberline {6}Gradient Descent}{19}{chapter.6}%
+\contentsline {chapter}{\numberline {6}Gradient descent and Convex Optimization}{19}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Convex Optimization}{20}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Convergence of GD for Smooth Convex Functions}{22}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Convergence of GD for smooth and strongly convex functions}{23}{section.6.3}%
-\contentsline {part}{III\hspace {1em}Appendix}{25}{part.3}%
-\contentsline {chapter}{\numberline {7}Calculus}{26}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Taylor Expansion}{26}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Linear Algebra}{27}{section.7.2}%
+\contentsline {chapter}{\numberline {7}Convergence of GD Under Certain Conditions}{24}{chapter.7}%
+\contentsline {section}{\numberline {7.1}For Smooth and Convex Functions}{24}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Linear Convergence under PL condition}{26}{section.7.2}%
+\contentsline {chapter}{\numberline {8}Non-Convex Optimization}{29}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Basics}{29}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Second-order stationary point}{30}{section.8.2}%
+\contentsline {part}{III\hspace {1em}Appendix}{33}{part.3}%
+\contentsline {chapter}{\numberline {9}Calculus}{34}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Taylor Expansion}{34}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Linear Algebra}{35}{section.9.2}%
