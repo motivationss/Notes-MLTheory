@@ -1,0 +1,101 @@
+
+% \part{Deep Learning}
+
+\chapter{Implicit Regularization of GD}
+
+
+
+\section{Implicit regularization in classification}
+
+Opening Remark: We will look at linear model and (2) deep homogeneous network 
+
+\begin{eg}[Linear Logisitc Regression]
+
+    We have the following setup: 
+
+    \begin{itemize}
+        \item \(S = \{ (x_i, y_i)\}_{i=1}^n \sim_{\text{i.i.d}} P, x \in \R^d, y \in \{1, -1\}\)
+        \item   \( \Hcal = \{ x \mapsto \beta^T x \colon x \in \R^d\}\)
+        \item For  
+        \item loistic loss \(\ell (y', y) = \log \left( 1 + e^{-y y'}\right)\) is convex and smooth 
+        \item Empirical risk \(L_S (\beta) = \frac{1}{n}\sum_{i=1}^n \ell\left(\beta^T x_i, y_i\right)\)
+        \item 0-1 Classification error: \(\text{Err}_S (\beta) = \frac{1}{n} \sum_{i=1}^n \mathbb{1} [y_i 
+        \beta^T x_i] \leq 0 \)
+        \item Population logistic risk and 0-1 error: \(L(\beta), \text{Err}(\beta)\).  
+    \end{itemize}
+
+    Assumption: The training data are linearly separable: \(\exists \beta \in \R^d\) s.t. 
+    \(y_i\beta^T x_i > 0, \forall i \in [n]\). 
+
+\end{eg}
+
+Observations: 
+
+\begin{itemize}
+    \item Only the direction of \(\beta\) matters for classification error: 
+    \begin{align*}
+     \text{sign} \left(  c \beta^T x \right) = \text{sign} \left(\beta^T x\right), \forall c > 0 
+     \Rightarrow \text{Err}_S (\beta) = \text{Err}_S (c \beta), \forall c > 0 
+    \end{align*}
+
+    \item Scaling up a separator \(\beta\) will drive empirical logistic loss to 0. 
+    
+    If \(y_i \beta^T x_i > 0, \forall i\), then 
+    \[
+        L_S (c \beta) \to 0 \text{ as } c \to + \infty   
+    \]
+
+    (for any separator \(\beta\), \(\infty \cdot \beta\) is a ``global min'' of \(L_S\)). 
+
+    \item \(\exists\) an infinite number of directions that are separators. 
+\end{itemize}
+
+Implicit Regularization Question: which direction is found by GD? 
+
+A: max-margin/SVM solution 
+
+
+\begin{definition}
+    (unormalized) margin: \(\gamma (\beta) \coloneqq \min_{i \in [n]} y_i \beta^T x_i\)  \\ 
+    normalized margin: \(\overline{\gamma}(\beta) = \frac{\gamma (\beta)}{\norm{\beta}_2}\) 
+\end{definition}
+
+\begin{remark}
+    \(\overline{\gamma}\) is a scale-invariant 
+\end{remark}
+
+\begin{definition}[max-margin/SVM solution]
+    ... 
+\end{definition}
+
+\begin{remark}
+    Why is max margin good? 
+
+    Recall margin-based generalization bound: 
+
+    \begin{align*}
+        \text{Err} (\beta) &\leq \frac{4}{\gamma (\beta)} \cdot \frac{\norm{\beta}_2 R}{\sqrt{n}}
+        + (\text{small terms}) 
+        &= \frac{4}{\overline{\gamma}(\beta)} \cdot \frac{R}{\sqrt{n}} + (\text{small terms})
+    \end{align*}
+
+    % where (R^2 =  \( \expec{}\midBrac{ \norm{x}_2^2}\))
+\end{remark}
+
+\begin{theorem}[Implicit Regularization for linear logistic regression]
+    GF on \(L_S (\beta)\)   \(\left( \dot{\beta}(t) = - \nabla L_S \left( \beta(t)\right) \right)\) starting 
+    from an arbitrary initialization \(\beta(0) \in \R^d\) converges to the max-margin solution: 
+
+    \[
+        \overline{\gamma} \left( \beta(t) \right) \to \max_{\beta \in \R^d} \overline{\gamma} (\beta) 
+        \text{   as } t \to \infty 
+    \] 
+\end{theorem}
+
+\begin{proof}[proof intuition (not real proof)]
+    First, \(L_S \left( \beta (t)\right) \to 0\) as \(t \to \infty\) by a standard smooth convex 
+    optimization argument.  \\ 
+    Think of \(\L_S \left( \beta{t} \right) \approx 0\) for large \(t\) 
+
+    Second, \(\gamma \left( \beta(t) \right) \to \infty\). 
+\end{proof}

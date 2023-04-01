@@ -1,31 +1,46 @@
-\contentsline {part}{I\hspace {1em}Generalization Theory}{2}{part.1}%
-\contentsline {chapter}{\numberline {1}Supervised Learning Framework}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Basic Setups}{3}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Empirical Risk Minimization}{3}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Questions}{4}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Concentration Inequality}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Chebyshev's Inequality}{5}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Hoeffding Inequality}{6}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Bounded Difference Concentration Inequality}{7}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Rademacher Complexity}{8}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Uniform Convergence}{8}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Rademacher Complexity}{8}{section.3.2}%
-\contentsline {chapter}{\numberline {4}VC-Dimension}{11}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Growth Function Bounds}{11}{section.4.1}%
-\contentsline {section}{\numberline {4.2}More on VC-Dimension}{13}{section.4.2}%
-\contentsline {chapter}{\numberline {5}Margin Theory}{16}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Basic Setups}{16}{section.5.1}%
-\contentsline {part}{II\hspace {1em}Optimization}{18}{part.2}%
-\contentsline {chapter}{\numberline {6}Gradient descent and Convex Optimization}{19}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Convex Optimization}{20}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Convergence of GD for Smooth Convex Functions}{22}{section.6.2}%
-\contentsline {chapter}{\numberline {7}Convergence of GD Under Certain Conditions}{24}{chapter.7}%
-\contentsline {section}{\numberline {7.1}For Smooth and Convex Functions}{24}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Linear Convergence under PL condition}{26}{section.7.2}%
-\contentsline {chapter}{\numberline {8}Non-Convex Optimization}{29}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Basics}{29}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Second-order stationary point}{30}{section.8.2}%
-\contentsline {part}{III\hspace {1em}Appendix}{33}{part.3}%
-\contentsline {chapter}{\numberline {9}Calculus}{34}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Taylor Expansion}{34}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Linear Algebra}{35}{section.9.2}%
+\contentsline {part}{I\hspace {1em}Generalization Theory}{3}{part.1}%
+\contentsline {chapter}{\numberline {1}Supervised Learning Framework}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Basic Setups}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Empirical Risk Minimization}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Questions}{5}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Concentration Inequality}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Chebyshev's Inequality}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Hoeffding Inequality}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Bounded Difference Concentration Inequality}{8}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Rademacher Complexity}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Uniform Convergence}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Rademacher Complexity}{9}{section.3.2}%
+\contentsline {chapter}{\numberline {4}VC-Dimension}{12}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Growth Function Bounds}{12}{section.4.1}%
+\contentsline {section}{\numberline {4.2}More on VC-Dimension}{14}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Margin Theory}{17}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Basic Setups}{17}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Margin Bound for Linear functions}{18}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Generalization bounds via covering numbers}{19}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Setups}{19}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Relation to Rademacher Complexity}{20}{section.6.2}%
+\contentsline {part}{II\hspace {1em}Optimization}{21}{part.2}%
+\contentsline {chapter}{\numberline {7}Gradient descent and Convex Optimization}{22}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Convex Optimization}{23}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Convergence of GD for Smooth Convex Functions}{25}{section.7.2}%
+\contentsline {chapter}{\numberline {8}Convergence of GD Under Certain Conditions}{27}{chapter.8}%
+\contentsline {section}{\numberline {8.1}For Smooth and Convex Functions}{27}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Linear Convergence under PL condition}{29}{section.8.2}%
+\contentsline {chapter}{\numberline {9}Non-Convex Optimization}{32}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Basics}{32}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Second-order stationary point}{33}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Finding SOSP with vanilla GD}{35}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Landscape Analysis}{35}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Trajectory Analysis}{36}{section.9.5}%
+\contentsline {part}{III\hspace {1em}Deep Learning}{39}{part.3}%
+\contentsline {chapter}{\numberline {10}Introduction to Implicit Regularization}{40}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Background}{40}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Motivating Examples of Implicit Regularization}{41}{section.10.2}%
+\contentsline {paragraph}{Setting 1: Overparametrized linear regression}{41}{section*.5}%
+\contentsline {subsection}{\numberline {10.2.1}Mirror Descent}{43}{subsection.10.2.1}%
+\contentsline {chapter}{\numberline {11}Implicit Regularization of GD}{46}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Implicit regularization in classification}{46}{section.11.1}%
+\contentsline {part}{IV\hspace {1em}Appendix}{48}{part.4}%
+\contentsline {chapter}{\numberline {12}Calculus}{49}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Taylor Expansion}{49}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Linear Algebra}{50}{section.12.2}%

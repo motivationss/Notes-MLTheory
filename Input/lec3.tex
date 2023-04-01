@@ -211,3 +211,38 @@ SideNote: We say \(f \colon \R \to R\) is \(C-\)Lipschitz if \(\absolute{f(x) - 
 
     \color{red} What generalization bound?
 \end{proof}
+
+
+\begin{remark}
+    
+    \[
+        L_{0-1} (h) \leq L_\gamma (h) \leq L_{\gamma, S} (h) + \frac{2}{\gamma} R_n (\Hcal) + 
+        \sqrt{ \frac{\log \frac{1}{\delta}}{2n}  }  
+    \]
+
+    Tradeoff: As \(\gamma\) increases, \(L_{\gamma, S} (h)\) increases but 
+    \(\frac{2}{\gamma} R_n (\Hcal)\) decreases. 
+\end{remark}
+
+Assume that \(h\) perfectly classifies the dataset \(S\): 
+
+\[
+    y_i h(x_i) > 0, \ \forall i = 1, \ldots, n \ \ \ \ L_{0-1, S} (h) = 0 
+\]
+
+Let \(\gamma_{S,h} = \min_{i \in [n]} y_i h(x_i)\), which is the maximum \(\gamma\) 
+such that \(L_{\gamma, S}(h) = 0\). Then: 
+
+\[
+    L_{0-1} (h) \leq L_\gamma (h) \leq  \frac{2}{\gamma_{S,h}} R_n (\Hcal) + 
+     \sqrt{ \frac{\log \frac{1}{\delta}}{2n}  }  
+\]
+
+
+
+\section{Margin Bound for Linear functions}
+
+\begin{theorem}[Rademacher complexity of linear functions with bounded weights]
+    Let \(\Hcal = \{ x \mapsto  w^T x \colon w \in \R^d, \norm{w}_2 \leq B\}\) and 
+    
+\end{theorem}

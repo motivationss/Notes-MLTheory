@@ -1,0 +1,256 @@
+
+What if we don't want to modify GD at all? 
+
+\section{Finding SOSP with vanilla GD}
+
+\begin{theorem}
+    Let \(f \colon \R^d \to \R\) be a \(\beta\)-smooth function and \(\tilde{x}\) be 
+    a stationary point of \(f\) but not a SOSP (\(\nabla f(\xtilde) = 0, 
+    \lambda_{\text{min}} \left(\nabla^2 f(\xtilde)\right) < 0\)). Consider GD: 
+    \(x_{t+1} = x_t - \eta \nabla f(x_t)\) with \(\eta < \frac{1}{\beta}\) where \(x_0\) is initialized \textbf{randomly}
+    whose probability distribution \(\gamma\)'s support has non-zero Lebesgue measure 
+    (\emph{e.g.}, \(\mathcal{N}(0, \sigma^2)\)), then 
+    \[
+        \Pr \left[ \lim_{t \to 0} x_t = \xtilde  \right]  = 0
+    \]
+
+\end{theorem}
+
+The above theorem is proved using Stable Manifold Theorem. 
+
+\begin{eg}[Non-Convex quadratic function]
+    \(f(x) = \frac{1}{2} x^T A x, A = \text{diag}(\lambda_1, \ldots, \lambda_d)\) with 
+    \(\lambda_1, \ldots, \lambda_k > 0 > \lambda_{k+1}, \ldots, \lambda_d\). 
+
+    We have \(\nabla f(x) = Ax\) and \(\nabla^2 f(x) = A\). Then 
+    \(\nabla f(x) = 0 \Rightarrow x = 0\). 
+
+    It's not a SOSP because \(\lambda_{\text{min}}(A) < 0\). 
+
+*why is it impossible to converge to \(\xtilde = 0\)? 
+
+A: GD: \(x_0 \in \R^d\), \(x_{t+1} = x_t - \eta A x_t = (I - \eta A)x_t\), then 
+\(x_t = (I - \eta A)^T x_0\). We have 
+
+\[
+    \begin{bmatrix}
+        x_{t,1} \\ 
+        \vdots \\ 
+        x_{t, d}
+    \end{bmatrix} = \text{diag}(1 - \eta \lambda_i)^T \begin{bmatrix}
+        x_{0,1} \\ 
+        \vdots \\ 
+        x_{0, d}
+    \end{bmatrix}
+\]
+
+To generalize, \(x_{t, i} = (1 - \eta \lambda_i)^T x_{0,i}, i = 1, \ldots, d\). 
+
+We have \(\eta < \frac{1}{\beta} = \frac{1}{\max_{i \in [d]} \absolute{\lambda_i}}\). 
+
+If \(\lambda_i > 0\), then \(0 < 1 - \eta \lambda_i < 1\), implying that \(x_{t,i} \to 0\)
+as \(t \to \infty\). 
+
+If \(\lambda_i < 0\), then \(1 - \eta \lambda_i > 1\), implying that \(x_{t,i}\to 0\)
+only if \(x_{0, i} = 0\). 
+
+This means that the only points that can converge to \(\xtilde = 0\) is 
+\([*, \ldots, *, 0, \ldots, 0]^T\) for k *'s and d-k 0's, which has measure 0. 
+
+
+\end{eg}
+
+
+\section{Landscape Analysis}
+
+Hopefully, in a concrete problem all SOSPs are global minima. 
+
+\begin{itemize}
+    \item all local minima are global 
+    \item all saddle points are strict
+\end{itemize}
+
+\begin{eg}[Top Eigenvector Problem] (1-PCA)
+    Setting: \(M \in \R^{d \times d}\), \(M \succ 0\). Eigenvalues: \(\lambda_1 > \ldots > \lambda_d > 0\)
+    with corresponding Eigenvectors \(v_1, \ldots, v_d\) with \(\norm{v_i}_2 = 1\). 
+
+    Consider the optimization problem 
+    \[
+        \min_{x \in \R^d} f(x) = \frac{1}{2} \norm{x x^T - M}_F^2
+    \]
+
+    Global min:  \(x \pm \sqrt{v_1} v_1\). 
+
+    In HW2, we will show all SPs are \(\pm \sqrt{\lambda_i v_i}\), and only SOSPs are 
+    \(\pm \sqrt{\lambda_i v_i}\). 
+\end{eg}
+
+\begin{remark}
+    We still need to check smoothness, but \(f\) is not globally smooth over \(\R^d\). 
+
+    If \(f(x)\) is bounded, then \(x\) is bounded, then \(\norm{\nabla^2 f(x)}_2\) is bounded. 
+\end{remark}
+
+
+\section{Trajectory Analysis}
+
+Even if the Landscape is bad, it might not be the end of the world!
+
+Trajectory analysis is about understanding what happens along the Trajectory. 
+
+We will study one setting: deep linear networks. 
+
+\(\X = \R^{d_\X}, \Y = \R^{d_\Y}\), and \(\Hcal = \{ x \mapsto W_L W_{L-1} \cdots W_2 
+W_1 x \colon W_j \in \R^{d_{j} \times d_{j-1}}, j = 1, \ldots, L\}\), where \(x \in \R^{d_0},
+y \in \R^{d_L}\). 
+
+
+We have the \textbf{empirical risk} 
+
+\[
+   \min_{W_j} \frac{1}{n} \sum_{i=1}^n \ell (W_L, \ldots, W_1 x_i, y_i) = f(W_1, \ldots, W_L)
+\]
+
+We have the \textbf{observations}: 
+
+If \(\min \{ d_1, \ldots, d_{L-1}\} \geq \min \{ d_0, d_L\}\), then \(\Hcal\) is the same 
+as \(\{ x \mapsto Wx \colon W \in \R^{d_L \times d_0} \}\). 
+
+If \(\min \{ d_1, \ldots, d_{L-1}\} = k < \min \{ d_0, d_L\}\), then \(\Hcal\) is the same 
+as \(\{ x \mapsto Wx \colon W \in \R^{d_L \times d_0}, \text{rank}(W) \leq k \}\).
+
+But it changes the optimization problem (convex \(\to\) nonconvex). 
+
+We will consider an even simpler setting: \(d_0 = d_1 = \ldots = d_L = 1\), where all matrices 
+are 1x1 scalars, and there's just one example (\(x_1 = 1, y_1 = 1\)). 
+
+\[
+   f(w)_{w \in \R^L}= f(w_1, \ldots, w_L) = \frac{1}{2} \left( w_L \cdots w_1 - 1  \right)
+\] 
+
+We will consider GD: \(w (\circ) \in \R^L\), \(w(t+1) = w(t) - \eta \nabla f(w(t))\). 
+
+*Attempt at Landscape analysis: 
+
+\[
+    \frac{\partial f(w)}{\partial w_i} = (w_L, \ldots, w_1 - 1) \cdot \prod_{k \neq i} w_k   
+\] 
+
+\[
+    \nabla f(x) = 0 \Leftrightarrow \begin{cases}
+        w_L \cdots w_1 \colon \text{global min, good } \\ 
+        \prod_{k \neq i} w_k = 0 (\forall i) \colon \text{at least } 2 w_i\text{'s are }0.  
+    \end{cases}
+\]
+
+We also can compute the hessian, \(\frac{\partial^2 f(w)}{\partial w_i^2} = \left(\prod_{k \neq i} w_k\right)^2\). 
+
+
+\[
+    i \neq j: \frac{\partial^2 f(w)}{\partial w_i \partial w_j} = 2 \left(\prod_{k \neq i} w_k\right)
+    \left(\prod_{k \neq j} w_k\right) - \left( \prod{k \neq i, k \neq j} w_k\right)
+\]
+
+\underline{observation 1}: If at least 3 \(w_i\)'s are 0, then \(\nabla^2 f(w) = 0\). 
+(non-strict saddle points, bad!)
+
+\underline{observation 2}: \(f\) is not \(\beta\)-smooth for any finite \(\beta\), even if 
+\(f(w)\) is bounded. 
+
+\[
+    w = \left( \epsilon^{l-1}, \frac{1}{\epsilon}, \frac{1}{\epsilon}, \cdots, 
+    \frac{1}{\epsilon} \right), f(w) = 0, \text{global min}
+\]
+
+But: if \(\epsilon \to 0\), \(\frac{\partial^2 f(w)}{\partial w_1^2} = \left(\frac{1}{\epsilon^{l-1}}\right)^2 \to \infty\), 
+which gives that \(\norm{\nabla^2 f(w)}_2 \to \infty\), implying that it cannot satisfy the 
+smoothness condition. 
+
+\textbf{Main Result}: GD starting from the set 
+\[
+    \{ w \in \R^d \colon w > 0, \prod_{i=1}^L w_i \leq 1 \}
+\]
+
+will linearly converge to a global minimum of \(f\). 
+
+
+To prove this, we will show that along the GD trajectory, 
+\(f\) is \(\beta\)-smooth and \(\alpha\)-PL for some \(\alpha, \beta\). 
+
+Then we can apply the convergence proof for smooth \& PL functions. 
+
+
+\begin{definition}
+    For \(w \in \R^L\), \(w > 0\), we say that \(w\) is \textbf{C-balanced} (\(c \geq 1\))
+    if \(x_i \leq c x_j\) for all \(i, j \in [L]\). 
+\end{definition}
+
+The initial point \(w(0)\) is c-balanced for \(c = \max_{i, j}\frac{w_i (0)}{w_j (0)}\). 
+
+\begin{lemma}[GD preserves c-balancedness]
+    Let \(w > 0\) be c-balanced and \(\prod^L_{i=1} w_i \leq 1\). Then \(w' = w - \eta \nabla f(w)\)
+    is also c-balanced and \(w' \geq w\). 
+\end{lemma}
+
+\begin{proof}
+    \[
+        \frac{\partial f(w)}{\partial w_i} = \left( w_1 \cdots w_L - 1  \right) \prod_{k \neq i} w_k \leq 0 
+        \Rightarrow w_i' \geq w_i   
+    \]
+
+    which proves the second point. 
+
+    For the first one, let \(a = - (w_1\cdots w_L - 1)\)
+\end{proof}
+
+
+\begin{lemma}[Consequence of c-balancedness]
+    Suppose \(w > 0\) is c-balanced. Then \(\forall I \subseteq [L]\), 
+
+    \[
+        \prod_{i \notin I} w_i \leq C^{\absolute{I}} \left( \prod_{i=1}^L w_i \right)^{1 - \absolute{I}/L}  
+    \]
+\end{lemma}
+\begin{proof}
+    ... 
+\end{proof}
+
+\begin{lemma}[smoothness]
+    Let \(w > 0\) be c-balanced and \(\prod_{i=1}^L w_i \leq 1\). Then \(\norm{\nabla^2 f(w)}_2 
+    \leq 3 L c^2\). 
+\end{lemma}
+
+\begin{proof}
+    ... 
+\end{proof}
+
+
+\begin{lemma}[GD with small stepsize doesn't overshoot]
+    Let \(g \colon \R^d \to \R\) be differentiable. Let \(x \in \R^d\) be a point 
+    with \(\nabla g(x) \neq 0\). Suppose \(g\) is \(\beta\)-smooth over the  line 
+    segment between \(x\) and \(x' = x - \eta \nabla g(x)\), for \(\eta < \frac{1}{\beta}\). 
+    Then \(\nabla g(x') \neq 0\). 
+\end{lemma}
+
+
+\begin{proof}
+    ... 
+\end{proof}
+
+
+\begin{lemma}
+    Let \(w > 0\) be c-balanced and \(\prod_{i=1}^L w_i \leq 1\). Let \(\beta = 3 L c^2\) 
+    and \(\eta \leq \frac{1}{\beta}\). Let \(w' = w - \eta \nabla f(w)\). Then: 
+    \[
+        \prod_{i=1}^L w_i' \leq 1   
+    \]
+\end{lemma}
+
+\begin{lemma}[\(\alpha\)-PL]
+    Let \(w > 0\) be c-balanced and \(\delta \leq \prod_{i=1}^L w_i \leq 1\). 
+    Then \(\norm{\nabla f(w)}_2^2 \geq \frac{2 L \delta^{2 - \frac{2}{L}}}{c^2} f(w)\)
+\end{lemma}
+
+\begin{proof}
+    ...
+\end{proof}

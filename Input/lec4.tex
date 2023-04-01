@@ -1,0 +1,123 @@
+
+\chapter{Generalization bounds via covering numbers}
+
+
+\section{Setups}
+
+\begin{definition}[metric space] 
+
+    (M, \(\rho\)) is a metric space if \(M\) is a set and \(\rho \colon M \times M \to \R\)
+    is a distance function that satisfies: 
+
+    \begin{itemize}
+        \item \(\rho (x, x) = 0, \ \forall x \in M\). 
+        \item \(\rho (x, y) > 0, \ \forall x, y \in M, x \neq y\)
+        \item \(\rho (x, y) = \rho (y, x), \ \forall x,y \in M\)
+        \item \(\rho (x, z) \leq \rho(x, y) + \rho (y, z), \ \forall x, y, z \in M\)
+    \end{itemize}
+    
+\end{definition}
+
+\begin{eg}
+    \((\R^d, \norm{\cdot}_2), \rho (x, y) = \norm{x - y}_2\). 
+\end{eg}
+
+
+\begin{definition}[\(\epsilon\)-cover/\(\epsilon\)-net]
+    Let (\(M, \rho\)) be a metric space and \(A \subseteq M\). We say that \(C \subseteq M\)
+    is an \(\epsilon\)-cover for \(A\) if: 
+    
+    \[
+        \forall x \in A, \exists \ x' \in C \text{ s.t. } \rho(x, x') \leq \epsilon  
+    \]
+\end{definition}
+
+
+\begin{definition}[covering number]
+    Covering number is the minimum size of an \(\epsilon\)-cover: 
+    
+    \[
+        N (\epsilon, A, \rho) = \min \{ \absolute{C} \colon C \text{ is an } \epsilon \text{-cover 
+        for } A \text{ under distance } \rho  \}  
+    \]
+\end{definition}
+
+
+\begin{eg}
+    Given \((\R^d, \norm{\cdot}_2), A = \{  x \in \R^d \colon \norm{x}_2 \leq 1 \}\),  
+    then for any \(\epsilon \in (0, 1)\), 
+
+    \[
+        \left( \frac{1}{\epsilon}\right)^d \leq N ( \epsilon, A, \norm{\cdot}_2) \leq 
+        \left(\frac{3}{\epsilon}\right)^d   
+    \]
+\end{eg}
+
+\begin{proof}
+    For the lower bound, Let \(C\) be an \(\epsilon\)-cover, then 
+    \[
+        \text{Vol}(A) \leq \absolute{C} \cdot \text{Vol} (\epsilon\text{-ball})  
+    \]
+    Leading to that \(\absolute{C} \geq \frac{\text{Vol}(1\text{-ball})}{\text{Vol}(\epsilon\text{-ball})}
+    = \left(\frac{1}{\epsilon}\right)^d\). 
+
+    For the Upper bound, we will construct an \(\epsilon\)-cover: 
+    
+    repeatedly adding points that are not covered by existing \(\epsilon\)-balls. 
+
+    \(C = \{ x_1, x_2, \cdots, x_n \} \colon \epsilon\text{-cover}, \norm{x_i - x_j}_2 > \epsilon 
+    \ \forall i \neq j\)
+
+    We have the property: all \(\frac{\epsilon}{2}\)-balls don't intersect, and the following: 
+
+    \begin{align*}
+        \absolute{C} &\leq \frac{\text{Vol} \left(  (1 + \frac{\epsilon}{2})\text{-ball}  \right) }
+        {\text{Vol} \left(  \frac{\epsilon}{2}\text{-ball}  \right)} \\ 
+        &= \left(  \frac{ 1 + \frac{\epsilon}{2}  }{\frac{\epsilon}{2}}  \right)^d  \\ 
+        &\leq \left(\frac{3}{\epsilon}\right)^d 
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    \[
+        d \log \frac{1}{\epsilon} \leq \log N (\epsilon, A, \norm{\cdot}_2) \leq d \log \frac{3}{\epsilon}  
+    \]
+\end{remark}
+
+
+\section{Relation to Rademacher Complexity}
+
+We fix a sample set \(S = \{ x_1, \cdots, x_n \}\) and bound its empirical Rad complexity: 
+
+\[
+    R_S (\Hcal) = \expec_{\vec{\sigma}} \midBrac{   \sup_{h \in \Hcal} \frac{1}{n} \sum_{i=1}^n 
+    \sigma_i h(x_i) }
+\]
+
+Define \(Q = \{ \left( h(x_1), \ldots, h(x_n)  \right) \colon h \in \Hcal \}\),  and  
+\(R_S(\Hcal) = \expec_{\vec{\sigma}} \midBrac{    \sup_{\vec{v} \in Q} \frac{1}{n} \innerProd{\vec{\sigma
+}}{\vec{v}} }\). 
+
+\begin{lemma}[Massart's lemma]
+    If \(Q\) is finite and \(\sup_{\vec{v} \in Q} \frac{1}{\sqrt{n}} \norm{\vec{v}}_2 \leq M\), then 
+    \[
+        R_S ( \Hcal ) \leq \sqrt{ \frac{2M^2 \log \absolute{Q}}{n} }  
+    \]
+\end{lemma}
+
+\begin{remark}
+    We prove this earlier in the Rad complexity chapter. 
+\end{remark}
+
+\begin{theorem}[Discretization theorem for Rad complexity]
+    Let \(\Hcal\) be a function class taking values in \([-M, M]\), then: 
+    \[
+        R_S(\Hcal) \leq \inf_{\epsilon > 0} \left(  \epsilon + \sqrt{ \frac{2M^2 \log N(\epsilon, 
+        Q, \frac{1}{\sqrt{n}}\norm{\cdot}_2)}{n} }  \right)  
+    \]
+\end{theorem}
+
+
+\begin{proof}
+    Let \(C\) be an \(\epsilon\)-cover for \(Q\) in \((\R^n, )\)
+\end{proof}

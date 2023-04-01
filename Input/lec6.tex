@@ -298,25 +298,25 @@ An intuitive solution is to use the bottom eigenvector.
     &\inf_{\norm{v}_2 = 1} v^TAv = \lambda_{\text{min}}(A), \text{ achieved by bottom eigenvector}
 \end{align*}
 
-\begin{algorithm}
-    \centering
-        \caption{GD + Eigenvector Computation}
-        \begin{algorithmic}[1]
-            \STATE Initialize $x_0 \in \R^d$
-            \FOR{$t=0,1,2...$}
-                \IF{$||\nabla f(x_t)||_2 > \epsilon$}
-                \STATE $x_{t+1} := x_t - \eta \nabla f(x_t)$
-                \ELSE
-                \STATE $v_t := \text{Eigenvector of $\nabla^2 f(x_t)$ corresponding to the smallest eigenvalue}$
-                \STATE $v_t := v_t/||v_t||_2$
-                \STATE $x_{t+1} := \begin{cases}
-                            x_t + \gamma v_t & \text{if } f(x_t + \gamma v_) \leq f(x_t - \gamma v_t)\\
-                            0 & \text{otherwise}
-                                    \end{cases}$
-                \ENDIF
-            \ENDFOR
-        \end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}
+%     \centering
+%         \caption{GD + Eigenvector Computation}
+%         \begin{algorithmic}[1]
+%             \STATE Initialize $x_0 \in \R^d$
+%             \FOR{$t=0,1,2...$}
+%                 \IF{$||\nabla f(x_t)||_2 > \epsilon$}
+%                 \STATE $x_{t+1} := x_t - \eta \nabla f(x_t)$
+%                 \ELSE
+%                 \STATE $v_t := \text{Eigenvector of $\nabla^2 f(x_t)$ corresponding to the smallest eigenvalue}$
+%                 \STATE $v_t := v_t/||v_t||_2$
+%                 \STATE $x_{t+1} := \begin{cases}
+%                             x_t + \gamma v_t & \text{if } f(x_t + \gamma v_) \leq f(x_t - \gamma v_t)\\
+%                             0 & \text{otherwise}
+%                                     \end{cases}$
+%                 \ENDIF
+%             \ENDFOR
+%         \end{algorithmic}
+% \end{algorithm}
 
 
 \begin{theorem}[GD + eigenvector finds SOSP]
@@ -365,4 +365,7 @@ where \(\xi_t \sim \mathcal{N}(0, \frac{r^2}{d}I)\).
     If we choose \(\eta = \frac{1}{\beta}\), \(r = \Tilde{O}(\epsilon)\) and run perturbed GD for \(T = O\frac{\beta (f(x_0) - f(x^*))}{\epsilon^2}\) iterations, then w.p. \(\geq 1 - \delta\), at least one of the iterates is an \((\epsilon, \sqrt{\rho \epsilon})\) SOSP. 
 \end{theorem}
 
-Intuition: a random perturbation will have a component that aligns with the bottom eigenvector of \(\nabla^2 f(x_t)\). 
+\begin{remark}
+    Intuition: a random perturbation will have a component that aligns with the bottom eigenvector of \(\nabla^2 f(x_t)\).     
+\end{remark}
+

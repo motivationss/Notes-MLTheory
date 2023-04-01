@@ -1,0 +1,433 @@
+
+\part{Deep Learning}
+
+
+\chapter{Introduction to Implicit Regularization}
+
+\section{Background}
+
+Recall that 
+
+\[
+    L(h_\theta) = L_S (h_\theta) + \left( L(h_\theta) - L_S (h_\theta)   \right)
+\]
+
+where \(L(h_\theta)\) is referred to as \textbf{Population/test risk}, \(L_S(h_\theta)\) is 
+referred to as \textbf{Empirical risk}, and their difference  \(\left( L(h_\theta) - L_S (h_\theta)   \right)\)
+is referred to as \textbf{Generalization Gap}. 
+
+In the past chapters, we aim at answering the following to questions: 
+
+1. \textbf{Optimization}: How to make the empirical risk small? 
+\begin{itemize}
+    \item Classical approach: Make sure \(L_S(h_\theta)\) is \textbf{convex} or has 
+    \textbf{good landscape properties} (e.g. all SOSPs are global min). 
+\end{itemize}
+
+2. \textbf{Generalization}: How to make the generalization gap small? 
+
+\begin{itemize}
+    \item Classical approach: Use \textbf{uniform convergence} to bound the generalization gap 
+    based on certain \textbf{complexity measures} of the function class 
+    \[
+        L(\hhat) - L_S (\hhat_{\text{ERM}}) \leq \sup_{h \in \Hcal} \left(L(h) - L_S(h)\right)
+        \leq \sqrt{ \frac{\text{complexity}(\Hcal)}{\text{number of samples}}  } 
+    \]
+\end{itemize}
+
+
+
+\textbf{Challenges in DL Optimization Theory}
+
+Objective functions in DL always don't have globally nice landscape: 
+\begin{itemize}
+    \item non-convex, non-smooth, bad local minima 
+    \item The generic approach is insufficient
+    \item Overparametrized network makes many generalization bounds vacuous 
+\end{itemize}
+
+\textbf{Key Perspective: algorithm matters}
+
+We can no longer analyze optimization and generalization separately in DL (unlike classical ML). 
+
+\textbf{Optimization}: Although the overall landscape is complex, trajectory of a specific 
+algorithm (e.g. gradient descent) might only encounter a special part of the landscape where 
+the optimization problem becomes easy. 
+
+\textbf{Generalization}: Specific algorithms used in practice like (stochastic) gradient 
+descent may be implicitly biased towards special solutions that generalize well. 
+
+
+\section{Motivating Examples of Implicit Regularization}
+
+Optimization algorithms could implicitly prefer certain special solutions. 
+
+We are going to first see two simple examples where implicit regularization can be characterized 
+exactly. 
+
+\underline{(S)GD}: \(L(\theta) = L_S(h_\theta) = \frac{1}{n}\sum_{i=1}^n \ell \left(h_\theta (x_i), y_i\right)\). 
+
+
+For GD: \(\theta(0)\) initialization, update \(\theta(t+1) = \theta(t) - \eta \nabla L \left(\theta(t)\right), t= 0, 1, \ldots\). 
+
+For SGD: \(\theta(t+1) = \theta(t) - \eta \nabla L_{B(t)} \left(\theta(t)\right), t= 0, 1, \ldots\) 
+where \(B(t) \subseteq [n], L_{B(t)} (\theta) = \frac{1}{\absolute{B}} \sum_{i \in B} \ell 
+\left(h_\theta (x_i), y_i\right)\). 
+
+Remark: if \(B\) is sampled randomly, \(\expec_B \midBrac{L_B (\theta)} = L(\theta)\). We do random shuffle 
+in practice to approximately achieve this goal. 
+
+
+\paragraph{Setting 1: Overparametrized linear regression} \ \\ 
+
+We are given \(\Hcal = \{  x \mapsto \beta^T x \colon \beta \in \R^d\}\), \(S = \{ (x_i, y_i)\}_{i=1}^n\) where 
+\(x_i \in \R^d, y_i \in \R\). We have the empirical risk defined as 
+\(L(\beta) = \frac{1}{2n} \sum_{i=1}^n \left(\beta^T x_i - y_i\right)^2 = \frac{1}{2n} \norm{X\beta - y}_2^2\). 
+
+We define \(X = \begin{bmatrix}
+   \ldots, x_1^T, \ldots \\ 
+   \ldots, x_2^T, \ldots \\ 
+    \vdots \\ 
+   \ldots, x_n^T, \ldots  
+\end{bmatrix} \in \R^{n \times d}, y = \begin{bmatrix}
+    y_1 \\  
+    \vdots \\  
+    y_n
+\end{bmatrix} \in \R^n\).  We assume \(d > n\) and \(\text{rank}(X) = n\). 
+
+
+Fact: \(\exists\) infinitely many \(\beta \in \R^d\) s.t. \(L(\beta) = 0\) or \(X\beta = y\)
+since we have \(n\) linearly independent equations and \(d\) variables. 
+
+\begin{theorem}[Implicit Regularization for linear regression]
+    Suppose we run SGD starting from zero initialization: 
+    \begin{align*}
+        \beta(0) &= \vec{0} \\ 
+        \beta(t+1) &= \beta(t) - \eta \cdot \nabla L_{B(t)} \left(\beta(t)\right), \ \ \ B(t) \in [n]
+    \end{align*}
+    Suppose it converges to zero loss: \(L\left( \beta(t)\right) \to 0 \text{as} t \to \infty\). 
+    
+    Then: \[
+        \lim_{t \to \infty} \beta (t) = \text{argmin} \norm{\beta}_2 \text{ s.t. } L(\beta) = 0   
+    \]
+\end{theorem}
+
+\begin{remark}
+    We call such solutions as min-\(\ell_2\)-norm solution. 
+\end{remark}
+
+\begin{proof}
+    We will prove 3 statements and combining them together yield the final result. 
+    \begin{enumerate}[label=\textcircled{\small\arabic*}]
+        \item Any iterate \(\beta(t)\) during SGD is in 
+        \(\text{span}\{x_1, \ldots, x_n\} = \{\sum_{i=1}^n \lambda_i x_i \colon \lambda_1, \ldots, \lambda_n \in \R\}
+        = \{ X^T \lambda \colon \lambda \in \R^n \}\). 
+        \item The min-\(\ell_2\)-norm solution is in \(\text{span}\{x_1, \ldots, x_n\}\). 
+        \item There is only one \(\beta\)
+    \end{enumerate}
+
+
+    \textbf{First Statement on subspace}
+
+    We have \(L_B(\beta) = \frac{1}{2\absolute{B}} \sum_{i \in B} \left(\beta^T x_i  - y_i\right)^2\) and 
+
+    \(\nabla L_B(\beta) = \frac{1}{\absolute{B}} \sum_{i \in B} \left(\beta^T x_i - y_i\right)x_i 
+    = \sum_{i \in B} \lambda_i x_i \in \text{span}\) by taking \(\lambda_i = \frac{1}{\absolute{B}}
+    \left(\beta^T x_i - y_i\right)\). 
+
+    This implies that \(\beta(t) \in \text{span}\{ x_1, \ldots, x_n \}\). 
+
+    \textbf{Second Statement on min-norm}
+
+    Let \(\beta\) be a min-\(\ell_2\)-norm solution. 
+
+    \(\beta = \beta_1 + \beta_1^\perp\), where \(\beta_1 \in \text{span}\{x_1,\ldots, x_n\}\) and 
+    \(\beta_1^\perp \in \left(\text{span}\{x_1, \ldots, x_n\}\right)^\perp\). 
+
+    First, \(\beta_1\) is still an optimal solution. We have \(L(\beta_1) = 0\) and 
+    \(y = X\beta = X(\beta_1 + \beta_1^\perp) = X\beta_1\). 
+
+    Next, \(\norm{\beta_1}_2 \leq \norm{\beta}_2\). 
+    
+    To see this, we have \(\norm{\beta}_2^2 = \norm{\beta_1 + \beta_1^\perp}_2^2 = \norm{\beta_1}_2^2 
+    + 2 \innerProd{\beta_1}{\beta_1^\perp} + \norm{\beta_1^\perp}_2^2 \geq \norm{\beta_1}^2_2\). 
+
+    This implies that \(\norm{\beta}_2 = \norm{\beta_1}_2\) as we know \(\norm{\beta}_2 \leq \norm{\beta_1}_2\)
+    by definition and \(\beta = \beta_1 \in \text{span}\). 
+
+ 
+    \textbf{Third Statement on uniqueness} 
+
+    If \(\beta\) is an optimal solution in the span, then we have 
+    \begin{align*}
+        \begin{cases}
+            X \beta = y \\ 
+            \beta = X^T \lambda, \lambda \in \R^n 
+        \end{cases} 
+        % Rightarrow y = X\beta = XX^T \lambda \text{   where XX^T has rank n and shape n by n}  
+        % &\Rightarrow \lambda = \left(XX^T\right)^{-1} y \text{ is unique} \\ 
+        % &\Rightarrow \beta \text{ is unique}
+    \end{align*}
+
+\end{proof}
+
+
+\textbf{Comparison to explicit regularization}
+
+\[
+    \hat{\beta}_\lambda = \text{argmin}_\beta \{ L(\beta) + \lambda \norm{\beta}_2^2  \} 
+\]
+
+As \(\lambda \to 0\), \(\hat{\beta}_\lambda \to \text{ argmin} \norm{\beta}_2 \text{ s.t. } L(\beta) = 0\). 
+
+
+
+\textbf{Setting 2: A two-layer model for overparametrized linear regression}
+
+We are given \(\Hcal = \{  x \mapsto \left( w \circ w\right)^T x \colon w \in \R^d  \}\) where 
+\(x \in \R^d\). 
+
+After re-parametrization, we still have a linear model \(x \mapsto \beta^T x\) for 
+\(\beta =w \circ w\). We have an additional constraint \(\beta \geq 0\) (entry-wise). 
+
+We assume that \(\exists \beta \geq 0\) s.t. \(X\beta = y\). 
+
+New loss function: \(\tilde{L}(w) = \frac{1}{2n} \norm{X(w \circ w) - y}_2^2\)
+
+GD: \( w(t+1) = w(t) - \eta \nabla \tilde{L}\left(w(t) \right)\) 
+
+\begin{definition}[Gradient Flow]
+    Gradient Flow is the limit of GD as \(\eta \to 0\). 
+\end{definition}
+
+First, rescale time: \(w(t + \eta) = w(t) - \eta \nabla \tilde{L}\left( w(t) \right)\). \\ 
+Second, take \(\eta \to 0\): \(w(t + dt) = w(t) - dt \cdot \tilde{L}\left( w(t) \right)\). \\ 
+\[
+   \dot{w} (t) =  \frac{dw(t)}{dt} = \frac{w(t + dt) - w(t)}{dt} = - \tilde{L}\left( w(t) \right)
+\]
+
+where \(\dot{w}(t)\) is a differential equation defined as the gradient flow. 
+
+
+\begin{theorem}[Implicit regularization for 2-layer model for linear regression] 
+    We consider initialization 
+    \[
+        w(0) = \alpha \vec{1} = \begin{pmatrix}
+            \alpha \\ 
+            \vdots \\ 
+            \alpha
+        \end{pmatrix}
+    \]  where \(\alpha > 0\) is small and GF: \(\dot{w} (t) = - \tilde{L}\left( w(t) \right)\). 
+
+    We define \(\beta(t) = w(t) \circ w(t)\).  
+    Suppose \(\tilde{L}\left( w(t) \right) \to 0 \text{ as } t \to \infty\). \\ 
+
+    Define \(\beta_\alpha = \lim_{t \to \infty} \left(w(t) \circ w(t) \right)\), then 
+    \begin{align*}
+        \lim_{\alpha \to \beta_\alpha} = &\text{ argmin} \norm{\beta}_1 \\ 
+        &\text{s.t. } X\beta = y \\ 
+        & \ \ \ \  \beta \geq 0 
+    \end{align*}
+\end{theorem}
+
+
+\begin{proof}
+    We do the calculations first: \(\tilde{L}\left( w(t) \right) = \frac{1}{2n} \norm{X(w \circ w) - y}_2^2\)
+    and \\  \(\nabla \tilde{L}\left( w(t) \right) = \frac{2}{n} X^T \left(X(w \circ w) - y\right) \circ w\), 
+    \(\dot{w}(t) = -\nabla \tilde{L}\left( w(t) \right)\). 
+
+    Look at the dynamics of \(\beta(t) = w(t) \circ w(t)\). (next do some analysis on time differential of \(\beta = w(t) \circ w(t)\))
+
+    \begin{align*}
+        \dot{\beta} (t) &= w(t) \circ \dot{w}(t) + \dot{w} (t) \circ w(t) \\ 
+        &= 2 w(t) \circ \dot{w}(t) \\ 
+        &= - \frac{4}{n} w(t) X^T \left(X(w \circ w) - y\right) \circ w(t) \\ 
+        &= - \frac{4}{\beta} \beta(t) \circ X^T \left( X \beta(t) - y \right)
+    \end{align*}
+
+    Here we got of \(w(t)\) and we can compare the usual linear regression setting: 
+    \( L(\beta) = \frac{1}{2n} \norm{X\beta - y}_2^2 \) and here 
+    \(\dot{\beta}(t) = \frac{1}{n} X^T \left(X\beta(t) - y\right)\)
+
+    The additional \(\beta(t)\) in setting 2 will change the implicit regularization from \(\ell_2\)
+    to \(\ell_1\). 
+
+    We will do the following to complete the proof: 
+
+    \begin{enumerate} 
+        \item Introduce mirror descent (MD), which is a generalization of GD 
+        \item Show a general theorem to characterize the implicit regularization of MD 
+        \item apply the MD theorem to the update differential equation of \(\dot{\beta}(t)\) 
+    \end{enumerate}
+\end{proof}
+
+
+\subsection{Mirror Descent}
+
+\[
+    \min_{z \in \R^d} f(z), f\text{ is convex}
+\]
+
+
+Recall that GD: \(z(t+1) = z(t) - \eta \nabla f \left(z(t) \right)\). 
+
+This is equivalent to \( z(t+1) = \text{argmin}_{z \in \R^d} \{  \left(f\left(z(t)\right)
++ \innerProd{\nabla f \left( z(t) \right)}{z - z(t)}\right) + \left(\frac{1}{2\eta} 
+\norm{z - z(t)}_2^2\right)   \}\)
+
+where the first term means 1st-order Taylor expansion at \(z(t)\), and the second term implies that 
+we don't want to go too far from the point. 
+
+GD uses \(\ell_2\)-norm to measure distance. More generally, we can use other ``distances''. 
+
+\begin{definition}[Bregman divergence]
+    Let \(\phi\) be a twice-differentiable and strictly convex function. Its \underline{Bragman divergence}
+    is 
+    \[
+        D_\phi (x, z) = \phi (x) - \phi (z) - \innerProd{\nabla \phi (z)}{ x - z}  
+    \]
+\end{definition}
+
+\begin{remark}
+    This definition measures the difference between the real point and its Taylor expansion. 
+\end{remark}
+
+Properties: 
+\begin{enumerate}[label=\textcircled{\small\arabic*}]
+    \item \(D_\phi (x, z) \geq 0\) and \(D_\phi (x, z) = 0\) if and only if \(x = z\). 
+    \item Fix \(z\), \(D_\phi (x, z)\) is strictly convex in \(x\). 
+  \end{enumerate}
+
+\begin{definition}[Mirror Descent Algorithm]
+    \(z(t + 1) = \text{argmin}_z \{  f\left(z(t)\right) + \innerProd{\nabla f\left(z(t)\right)}{z - z(t)}
+    + \frac{1}{\eta} D_\phi (z, z(t)) \}\)
+\end{definition}
+
+\begin{remark}
+    \(\frac{1}{\eta} D_\phi (z, z(t)) \) is strictly convex in \(z\). 
+
+    Compared with standard GD, we substitute the \(\ell_2\) norm with a generalized version 
+    of norm. 
+\end{remark}
+
+\underline{Examples}: 
+
+\begin{tabular}{|c|c|}
+    \hline
+    $\phi(z)$ & $D_\phi (x, z)$ \\
+    \hline
+    $\dfrac{1}{2} \norm{z}_2^2$ & $\dfrac{1}{2} \norm{x - z}_2^2$ \\
+    \hline
+    $\sum_j z_j \log z_j - \sum_j z_j (z > 0)$ & $\sum_j x_j \log \dfrac{x_j}{z_j} - \sum_j x_j + \sum_j z_j$ \\
+    \hline
+  \end{tabular}
+
+The bottom left refers to the unormalized negative entropy: \(H(p) = \sum p_j \log \frac{1}{p_j}\) and 
+the bottom right refers to the unormalized KL-divergence: \(D(p||q) = \sum_j p_j \log \frac{p_j}{q_j}\). 
+
+
+Given \(L(\beta) = \frac{1}{2n} \norm{X\beta - y}_2^2\)
+\begin{theorem}[Implicit regularization of MD for linear regression] 
+    Consider MD on \(L(\beta)\) with \(\phi\), initialized at \(\beta(0)\): 
+    \[
+        \beta(t + 1) = \text{argmin}_\beta \{  f\left(\beta(t)\right) + \innerProd{\nabla f\left(\beta(t)\right)}{\beta - \beta(t)}
+        + \frac{1}{\eta} D_\phi (\beta, \beta(t)) \}
+    \] 
+    Suppose \(L \left( \beta (t)\right) \to 0\) as \(t \to \infty\). Then: 
+    \begin{align*}
+        \lim_{t \to \infty} \beta (t) = \text{argmin} &D_\phi \left(\beta, \beta(0)\right) \\ 
+        \text{s.t.} & X\beta = y 
+    \end{align*}
+\end{theorem}
+
+\begin{remark}
+    Set \(\phi (z) = \frac{1}{2} \norm{z}_2^2\), \(D_\phi \left( \beta, \beta(0)\right) = \frac{1}{2} 
+    \norm{\beta - \beta(0)}_2^2\), which recovers the first GD theorem we talked about before. 
+\end{remark}
+
+
+\begin{proof}[Proof Sketch Only]
+    We will show 3 statements
+    
+    \begin{enumerate}[label=\textcircled{\small\arabic*}]
+        \item \(\nabla \phi \left(\beta(t)\right) - \nabla \phi \left( \beta(0)\right) \in \text{span}\{x_1, 
+        \ldots, x_n\}\)
+        
+        \item The optimal solution that minimizes \(D_\phi \left( \beta, \beta(0) \right)\) has to 
+        satisfy \(\nabla \phi (\beta) - \nabla \phi \left( \beta(0)\right) \in \text{span}\{x_1,\ldots, x_n\}\)
+
+        \item There is only one optimal solution that satisfies 
+        \[
+            \nabla \phi (\beta) - \nabla \phi \left( \beta(0)\right) \in \text{span}\{x_1,\ldots, x_n\}
+        \]
+    \end{enumerate}
+\end{proof}
+
+Now we have the sufficient techniques to apply the latest theorem to the original setting 2: 
+\(\tilde{L}(w) = \frac{1}{2} \norm{X(w \circ w)-y}_2^2\). 
+
+Recall that \(\dot{\beta} = - \frac{4}{\eta} \beta(t) \circ X^T \left(X\beta(t)-y\right)\). 
+
+Derive the continuous version of MD: 
+
+\[
+    z(t + 1) = \text{argmin}_z \{  f\left(z(t)\right) + \innerProd{\nabla f\left(z(t)\right)}{z - z(t)}
+    + \frac{1}{\eta} D_\phi (z, z(t)) \}
+\] 
+
+Take \(\eta \to 0\): 
+
+Do a 2nd-order Taylor expansion of \(D_\phi (z, z(t))\): 
+
+\[
+    D_\phi \left( z, z(t)\right) = \frac{1}{2} \left(z - z(t)\right)^T \nabla^2 \phi \left(z(t)\right)
+    \left(z - z(t)\right) + o\left(\norm{z - z(t)}_2^2\right)
+\]
+
+We can treat the last term \(o\left(\norm{z - z(t)}_2^2\right) \to 0\) and plug the rest terms back to the MD 
+update equation. 
+
+Solving the quadratic minimization, we get: 
+
+\[
+    z(t+1) = z(t) - \eta \left(\nabla^2 \phi \left(z(t)\right)\right)^{-1} \nabla f \left(z(t)\right)
+\]
+
+Take \(\eta \to 0\): \(\dot{z} (t) = - \left( \nabla^2 \phi \left(z(t)\right)    \right)^{-1} \nabla f\left( z(t) \right)\). 
+
+This is continuous-time MD. Finally 
+
+\begin{align*}
+    \dot{\beta}(t) &= - \frac{4}{n} \text{Diag} \left(\beta(t)\right) \cdot X^T \left(X \beta(t) - y\right) \\ 
+                   &= - 4 \text{Diag} \left(\beta(t)\right) \cdot \nabla L \left(\beta(t)\right)
+\end{align*}
+
+
+Appropriate \(\phi (\beta) = \sum_j \beta_j \log \beta_j - \sum_j \beta_j\), and we have 
+
+\[
+    [\nabla \phi (\beta)]_j = \log \beta_j, \ \ \ [\nabla^2 \phi(\beta)]_{ij} = \begin{cases}
+        \frac{1}{\beta_j}, i = j \\ 
+        0, i \neq j 
+    \end{cases}
+\]
+
+According to the last Theorem in this section, MD has to converge to 
+
+\begin{align*}
+    \text{argmin} D_\phi \left( \beta, \beta(0)\right) \text{ s.t. } &X\beta = y \\ 
+    & \beta \geq 0 
+\end{align*}
+
+\begin{align*}
+    D_\phi \left(\beta, \beta(0)\right) &= \sum_j \log \frac{\beta_j}{\beta(0)_j} 
+    - \sum_j \beta_j + \sum_j \beta(0)_j 
+    &= \sum_j \log \beta_j + \left(\log \frac{1}{\alpha^2} - 1\right) \norm{\beta}_1 + \alpha^2 d 
+\end{align*}
+
+
+As \(\alpha \to 0\), the first term is a constant, the second term goes to \(\infty\) and the last term goes to 0. 
+
+
+This is why we get argmin\(\norm{\beta}_1\) and proves the previous theorem we left with. 
+
