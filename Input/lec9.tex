@@ -1,33 +1,34 @@
 
 % \part{Deep Learning}
 
-\chapter{Implicit Regularization of GD}
+\chapter{Implicit Regularization in Classification Problems}
 
 
+Opening Remark: We will look at (1) linear model and (2) deep homogeneous network 
 
-\section{Implicit regularization in classification}
 
-Opening Remark: We will look at linear model and (2) deep homogeneous network 
+\section{Linear logisitc regression}
 
-\begin{eg}[Linear Logisitc Regression]
 
-    We have the following setup: 
+% \begin{eg}[Linear Logisitc Regression]
 
-    \begin{itemize}
-        \item \(S = \{ (x_i, y_i)\}_{i=1}^n \sim_{\text{i.i.d}} P, x \in \R^d, y \in \{1, -1\}\)
-        \item   \( \Hcal = \{ x \mapsto \beta^T x \colon x \in \R^d\}\)
-        \item For  
-        \item loistic loss \(\ell (y', y) = \log \left( 1 + e^{-y y'}\right)\) is convex and smooth 
-        \item Empirical risk \(L_S (\beta) = \frac{1}{n}\sum_{i=1}^n \ell\left(\beta^T x_i, y_i\right)\)
-        \item 0-1 Classification error: \(\text{Err}_S (\beta) = \frac{1}{n} \sum_{i=1}^n \mathbb{1} [y_i 
-        \beta^T x_i] \leq 0 \)
-        \item Population logistic risk and 0-1 error: \(L(\beta), \text{Err}(\beta)\).  
-    \end{itemize}
+We have the following setup: 
 
-    Assumption: The training data are linearly separable: \(\exists \beta \in \R^d\) s.t. 
-    \(y_i\beta^T x_i > 0, \forall i \in [n]\). 
+\begin{itemize}
+    \item \(S = \{ (x_i, y_i)\}_{i=1}^n \sim_{\text{i.i.d}} P, x \in \R^d, y \in \{1, -1\}\)
+    \item   \( \Hcal = \{ x \mapsto \beta^T x \colon x \in \R^d\}\)
+    \item For classification, predict the class label by the sign: \(\text{sign}(\beta^T x)\)
+    \item loistic loss \(\ell (y', y) = \log \left( 1 + e^{-y y'}\right)\) is convex and smooth (Upper bound on 0-1 loss)
+    \item Empirical risk \(L_S (\beta) = \frac{1}{n}\sum_{i=1}^n \ell\left(\beta^T x_i, y_i\right)\)
+    \item 0-1 Classification error: \(\text{Err}_S (\beta) = \frac{1}{n} \sum_{i=1}^n \mathbbm{1} [y_i 
+    \beta^T x_i] \leq 0 \)
+    \item Population logistic risk and 0-1 error: \(L(\beta), \text{Err}(\beta)\).  
+\end{itemize}
 
-\end{eg}
+Assumption: The training data are linearly separable: \(\exists \beta \in \R^d\) s.t. 
+\(y_i\beta^T x_i > 0, \forall i \in [n]\). 
+
+% \end{eg}
 
 Observations: 
 
@@ -65,7 +66,10 @@ A: max-margin/SVM solution
 \end{remark}
 
 \begin{definition}[max-margin/SVM solution]
-    ... 
+    \begin{align*}
+        \max_{\beta \in \R^d} \overline{\gamma} (\beta) \ \Leftrightarrow \ \max_{\norm{\beta}_2^2 \leq 1} 
+        \gamma (\beta) \ \Leftrightarrow \ \min_{\gamma (\beta) \geq 1} \norm{\beta}_2^2  
+    \end{align*}
 \end{definition}
 
 \begin{remark}
@@ -75,14 +79,15 @@ A: max-margin/SVM solution
 
     \begin{align*}
         \text{Err} (\beta) &\leq \frac{4}{\gamma (\beta)} \cdot \frac{\norm{\beta}_2 R}{\sqrt{n}}
-        + (\text{small terms}) 
+        + (\text{small terms}) \\ 
         &= \frac{4}{\overline{\gamma}(\beta)} \cdot \frac{R}{\sqrt{n}} + (\text{small terms})
     \end{align*}
 
+    where \(R^2 = \expec \midBrac{\norm{x}_2^2}\). 
     % where (R^2 =  \( \expec{}\midBrac{ \norm{x}_2^2}\))
 \end{remark}
 
-\begin{theorem}[Implicit Regularization for linear logistic regression]
+\begin{theorem}[Implicit Regularization for linear logistic regression] \ \\ 
     GF on \(L_S (\beta)\)   \(\left( \dot{\beta}(t) = - \nabla L_S \left( \beta(t)\right) \right)\) starting 
     from an arbitrary initialization \(\beta(0) \in \R^d\) converges to the max-margin solution: 
 
@@ -94,8 +99,275 @@ A: max-margin/SVM solution
 
 \begin{proof}[proof intuition (not real proof)]
     First, \(L_S \left( \beta (t)\right) \to 0\) as \(t \to \infty\) by a standard smooth convex 
-    optimization argument.  \\ 
-    Think of \(\L_S \left( \beta{t} \right) \approx 0\) for large \(t\) 
+    optimization argument. Think of \(\L_S \left( \beta{t} \right) \approx 0\) for large \(t\).  
 
-    Second, \(\gamma \left( \beta(t) \right) \to \infty\). 
+    Second, \(\gamma \left( \beta(t) \right) \to \infty\), which is a consequence of the loss being small. 
+    \[
+        0 \approx L_S (\beta) = \frac{1}{n} \sum_{i=1}^n \log \left(  1 + e^{-y_i \beta^T x_i} \right)  
+    \]
+
+    This implies each of the last term goes to 0 and thus \(y_i \beta^T x_i \to + \infty\) and 
+    \(\gamma (\beta) = \min_{i \in [n]} y_i \beta^T x_i \to + \infty\). 
+
+    Third, \(\norm{\beta (t)}_2 \to \infty\). 
+
+    Fourth, we can approximate \(\log (1 + e^{-z}) \approx e^{-z}\) for very large \(z\). 
+
+    Last, suppose we have \(\norm{\beta}_2 = r\) which is very large, then  
+
+    \begin{align*}
+        L_S(\beta) &=   \frac{1}{n} \sum_{i=1}^n \log \left(  1 + e^{-y_i \beta^T x_i} \right) \\ 
+        &\approx \frac{1}{n} \sum_{i=1}^n e^{-y_i \beta^T x_i} \\ 
+        &= \frac{1}{n} \sum_{i=1}^n e^{- r \cdot y_i \overline{\beta}^T x_i}  
+    \end{align*}
+
+    where \(\overline{\beta} = \beta / \norm{\beta}_2 = \beta / r\). Next,  
+
+    \begin{align*}
+        \log \left( n L_S (\beta)  \right) &\approx \log \left(  \sum_{i=1}^n e^{-r y_i \beta^T x_i} \right) \\
+        & \approx \max_{i \in [n]} \left( - r \cdot y_i \overline{\beta}^T x_i  \right) \\ 
+        &= (-r) \min_{i \in [n]} y_i \overline{\beta}^T x_i \\ 
+        &= (-r) \gamma(\overline{\beta}) \\ 
+        &= (-r) \overline{\gamma} (\beta)
+    \end{align*}
+
+    where we use log-sum-exp is approximately max. 
+
+    Intuitively, this means that 
+    \[
+        \min L_S (\beta) \Rightarrow \max \overline{\gamma} (\beta)  
+    \]
+
+
+    
 \end{proof}
+
+
+\begin{lemma}[log-sum-exp\(\approx\)max]
+    For any \(a_1, \ldots, a_n \in \R\), we have 
+    \[
+        \max_{i\in [n]} a_i \leq \log \left(  \sum_{i=1}^n e^{a_i}  \right)
+        \leq \max_{i \in [n]} a_i + \log n   
+    \]
+\end{lemma}
+
+\begin{proof}
+    Upper Bound: \(\sum_{i=1}^n e^{a_i} \leq n e^{\max_i a_i}\) \\ 
+    Lower Bound: \(\sum_{i=1}^n e^{a_i} \geq e^{\max_i a_i}\)
+\end{proof}
+
+\begin{remark}
+    We have an error in the previous proof of \(\log n\) according to this lemma. 
+\end{remark}
+
+\begin{proof}[Proof of previous theorem for exponential loss]
+    \[
+        L_S (\beta) = \frac{1}{n} \sum_{i=1}^n \exp \left(-y_i \beta^T x_i\right)  
+    \]
+    which can be thought of as a simplification for the proof. 
+
+    Let \(\beta^* \in \text{argmax}_{\norm{\beta}_2 = 1} \overline{\gamma} (\beta)\) and 
+    \(\gamma^* = \overline{\gamma}(\beta^*)\). We want to show that \(\overline{\gamma} \left( \beta(t)\right) \to \gamma^*\). 
+
+    We define \underline{smoothed normalized margin}: 
+
+    \begin{align*}
+        \tilde{\gamma} (\beta) &\coloneqq \frac{-\log \left(n L_S (\beta)\right)}{\norm{\beta}_2} \\ 
+        &= \frac{- \log \left( \sum_{i=1}^n \exp (-y_i \beta^T x_i) \right)}{\norm{\beta}_2} \\ 
+        &\leq \frac{- \max_{i \in [n]} (-y_i \beta^T x_i)}{\norm{\beta}_2} \\ 
+        &= \frac{ \min_{i \in [n]} y_i \beta^T x_i}{\norm{\beta}_2} \\ 
+        &= \overline{\gamma} (\beta)
+    \end{align*}
+
+    Using the log-lemma RHS, we get that \(  \tilde{\gamma}(\beta) \geq \overline{\gamma}(\beta) - \frac{\log n}{\norm{\beta}_2}  \). 
+    \[
+        \overline{\gamma} (\beta) - \frac{\log n}{\norm{\beta}_2} \leq \tilde{\gamma} (\beta) 
+        \leq \overline{\gamma} (\beta)    
+    \]
+    where \(\frac{\log n}{\norm{\beta}_2} \to 0\) as \(\norm{\beta(t)}_2 \to \infty\).
+    
+    Therefore, we can just analyze \(\tilde{\gamma}(\beta)\). 
+
+
+    First, we analyze the numerator \(- \log \left(n L_S (\beta) \right) \). 
+
+    \begin{align*}
+        \frac{d}{dt} \left(   - \log \left( n L_S \left(  \beta (t) \right)
+        \right) \right) &= \innerProd{- \frac{n \nabla L_S \left(\beta(t)\right)}{n L_S \left(\beta(t)\right)}}{\dot{\beta}(t)} \\ 
+        &= \innerProd{  \frac{\dot{\beta}(t)}{L_S \left(\beta (t)\right)}  }{\dot{\beta}(t)} \\ 
+        &= \frac{\norm{\betaDot(t)}_2^2}{L_S \left(\beta (t)\right)}         
+    \end{align*}
+
+    This implies that 
+    \begin{align*}
+        - \left(  \log \left( n L_S \left(\beta(T)\right) \right) - \log \left(n L_S \left(\beta(0)\right)\right)  \right)
+        &= \int_0^T \frac{d}{dt} \left(- \log \left(n L_S \left(\beta (t)\right)\right)\right) dt \\ 
+        &= \int^T_0 \frac{\norm{\betaDot (t)}_2^2}{L_S \left(\beta(t)\right)} dt  \tag{1}
+    \end{align*} 
+
+    Next we bound \(\norm{\betaDot (t)}_2\): 
+
+    \begin{align*}
+        \norm{\betaDot (t)}_2 &= \norm{  \betaDot (t)  }_2 \cdot \norm{\beta^*}_2 \\ 
+        & \geq \innerProd{\betaDot (t)}{\beta^*} \\ 
+        &= \innerProd{ - \nabla L_S \left(\beta(t)\right) }{\beta^*} \\ 
+        &= \innerProd{- \frac{1}{n} \sumN \exp \left(- y_i \beta(t)^T x_i\right) \cdot (-y_i x_i)}{\beta^*} \\ 
+        &=   \frac{1}{n} \sumN \exp \left(- y_i \beta(t)^T x_i\right) y_i \innerProd{\beta^* }{x_i} \\ 
+        &\geq \min_{i \in [n]} y_i (\beta^*)^T x_i \cdot \frac{1}{n} \sumN \exp \left( -y_i \beta(t)^T x_i \right) \\ 
+        &= \gamma^* \cdot L_S \left( \beta (t)\right) \tag{2}
+    \end{align*}
+
+    Combining (1) and (2), we can get that 
+    \begin{align*}
+        - \left(  \log \left( n L_S \left(\beta(T)\right) \right) - \log \left(n L_S \left(\beta(0)\right)\right)  \right) 
+        &= \int^T_0 \frac{\norm{\betaDot (t)}_2^2}{L_S \left(\beta(t)\right)} dt  \\ 
+        &\geq \int^T_0 \frac{  \norm{\betaDot (t)}_2  }{L_S \left(\beta(t)\right)} \gamma^* L_S \left(\beta(t)\right) dt \\ 
+        &= \gamma^* \int_0^T \norm{\betaDot (t)}_2 dt  \\ 
+        &\geq \gamma^* \norm{\beta(T) - \beta(0)}_2 
+    \end{align*}
+
+    \begin{remark}
+        \(\int_0^T \norm{\betaDot (t)}_2 dt \) refers the length of the curve between \(\beta(0)\) and 
+        \(\beta(T)\), which can be lower bounded by the line segment between these two points, which is the 
+        shortest path between them. 
+    \end{remark}
+
+    We essentially land on the smoothed normalized margin bound: 
+
+    \[
+        \gammatilde = \frac{ - \log \left(n L_S \left(\beta(T)\right)  \right) }{\norm{\beta}_2} \geq \frac{- \log \left( n L_S \left( \beta(0) \right) + \gamma^* \norm{\beta(T) - \beta(0)}_2 \right)}{\norm{\beta(T)}_2}
+    \]
+
+    Taking the limit does not change the sign: 
+    \[
+        \lim_{T \to \infty} \gammatilde \left( \beta (T)\right) \geq \gamma^* 
+    \]
+
+    % \begin{align*}
+    %     \gammatilde = \frac{ - \log \left(n L_S \left(\beta(T)\right)  \right) }{\norm{\beta}_2} 
+    %     \geq \frac{- \log \left( n L_S \left( \beta(0) \right) + \gamma^* \norm{\beta(T) - \beta(0)}_2 \right)}{\norm{\beta(T)}_2} 
+
+    %     % \lim_{T \to \infty} \gammatilde \left( \beta (T)\right) \geq \gamma^* 
+    % \end{align*}
+
+    since \(\norm{\beta(T)}_2 \to \infty\). 
+
+
+    This finishes the proof as we already know that 
+    \[
+        \gammatilde \left( \beta (T)\right) \leq \overline{\gamma} \left(\beta(T)\right) \leq \gamma^* 
+    \]
+    which means that 
+    \[
+        \lim_{T \to \infty} \gammatilde \left( \beta(T)\right) = \lim_{T \to \infty} \overline{\gamma} \left( \beta(T)\right) = \gamma^* 
+    \]
+\end{proof}
+
+
+\section{Deep Homogeneous Network}
+
+Consider \(\Hcal = \{  x \mapsto h_\theta (x) \colon \theta \in \R^p \}\). 
+
+\begin{definition}
+    The model \(h_\theta\) is D-homogeneous (\(D \in \{ 0, 1, 2, \ldots \}\)) if 
+    \(h_{c\theta} (x) = c^D h_\theta (x), \forall c > 0, \forall x \in \R^d\). 
+\end{definition}
+
+\begin{eg}
+    \begin{enumerate}
+        \item Linear Model \(h_\beta (x) = \beta^T x\) is 1-homogeneous as \((c\beta)^T x = c \beta^T x\)
+        \item A D-layer ReLU neural network is D-homogeneous: \\
+        Let \(\phi(z) = \text{ReLU}(z) = \max \{z, 0\}\) and we know \(\phi(cz) = c \phi(z), \forall c > 0\). 
+        \( h_\theta (x) = W_D \phi \left( \cdots \phi (W_1, x) \cdots \right) \) and 
+        \[
+            h_{c\theta} (x) = c W_D \phi \left(  \cdots \phi (W_1, x) \cdots  \right) = c^D h_\theta (x)  
+        \]
+    \end{enumerate}
+\end{eg}
+
+\begin{definition}
+    Unormalized margin: \(\gamma (\theta) \coloneqq \min_{i \in [n]} y_i h_\theta (x_i)\)  \\ 
+    normalized margin: \(\overline{\gamma}(\theta) \frac{\gamma (\theta )}{\norm{\theta}_2^D}\)
+\end{definition}
+
+
+\begin{theorem}[Implicit regurlarization for homogeneous models]
+    Consider GD/GF on \(L_S (\theta) = \frac{1}{n} \sumN \log (1 + e^{-y_i h_{\theta}(x_i)})\) where 
+    \(h_\theta\) is D-homogeneous.  \\ 
+    Assume \(\exists \ t_0 > 0\) s.t. \(y_i h_{\theta (t_0)} (x_i) > 0, \forall i \in [n]\). 
+
+    Then, 
+    \begin{enumerate}
+        \item \(L_S  \left(\theta(t)\right) \to 0  \) and \(\norm{\theta(t)}_2 \to \infty\) as \(t \to \infty\). 
+        \item As \(t \to \infty\), \(\theta(t)\) converges to a \textbf{first-order stationary point (a.k.a KKT point)}
+        of max-margin problem: 
+        \begin{align*}
+            \min_{\theta} &\norm{\theta}_2^2 \\ 
+            \text{s.t.} &\gamma (\theta) \geq 1  \tag*{(*)}
+        \end{align*}       
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{remark}
+    For linear model, (*) is a convex optimization problem. We have that KKT point \(\Leftrightarrow\) global optimum.
+    
+    But for non-linear models, (*) is not convex, and we only know that KTT point \(\Leftarrow\) global optimum. 
+\end{remark}
+
+
+\underline{Q}: Does GD always find global max margin, or it can find other KKT points? 
+
+\underline{A}: Sometimes, it can find a global max margin and sometimes, it cannot. There 
+are examples for both cases with additional assumptions on \(h_\theta, \theta(0), \{ (x_i, y_i)\}\). 
+
+\begin{definition}[KKT condition]
+    Consider a constrained optimization problem 
+    \begin{align*}
+        \text{minimize} &f(x) \\ 
+        \text{s.t.}     &g_i (x) \leq 0, i = 1, \ldots, n 
+    \end{align*}
+    where \(f, g_i's\) are differentiable. 
+
+    Then the KKT condition is  
+    \begin{itemize}
+        \item \(0 = \nabla \left( f(x) + \sumN \lambda_i g_i (x)  \right)\)
+        \item \(\lambda_i \geq 0, \ i = 1, \ldots, n\)
+        \item \(g_i (x) \leq 0, \ i = 1, \ldots, n\)
+        \item \(\lambda_i g_i (x) = 0, \ i = 1, \ldots, n\)
+    \end{itemize}
+\end{definition}
+
+
+\begin{eg}[KKT points for linear model]
+    \begin{align*}
+        \text{minimize } & \frac{1}{2} \norm{\beta}_2^2 \\ 
+        \text{s.t.}     &y_i \beta^T x_i \geq 1, i = 1, \ldots, n 
+    \end{align*}
+    The KKT condition is 
+    \begin{itemize}
+        \item \(0 = \nabla  \left( \frac{1}{2}\norm{\beta}_2^2 + \sumN \lambda_i \left(1 - y_i \beta^T x_i\right) \right) = \beta - \sumN \lambda_i y_i x_i\). 
+        \item \(\lambda_i \geq 0, \forall i\)
+        \item \(y_i \beta^T x_i \geq 1, \forall i\)
+        \item \(\lambda_i( y_i \beta^T x_i - 1) = 0, \forall i\)
+    \end{itemize}
+
+    This means that \(\beta = \sumN \lambda_i y_i x_i = \sum_{i \colon y_i \beta^T x_i = 1} \lambda_i y_i x_i\)
+
+    where the \(\beta\) is the support vectors. 
+\end{eg}
+
+\begin{eg}[KKT points for general model]
+    \begin{align*}
+        \text{minimize } & \frac{1}{2} \norm{\beta}_2^2 \\ 
+        \text{s.t.}     &y_i h_\theta (x_i) \geq 1, i = 1, \ldots, n 
+    \end{align*}
+    The KKT condition is 
+    \begin{itemize}
+        \item \(0 = \theta - \sumN \lambda_i y_i \nabla_\theta h_\theta (x_i)\) 
+        \item \(\lambda_i \geq 0, \forall i\) 
+        \item \(y_i h_\theta (x_i) \geq 1, \forall i\)
+        \item \(\lambda_i \left(y_i h_\theta (x_i) - 1\right) = 0, \forall i\)
+    \end{itemize}
+    This means that \(\theta = \sumN \lambda_i y_i \nabla_\theta h_\theta (x_i) = \sum_{i \colon y_i h_\theta(x_i)=1} \lambda_i y_i \nabla_\theta h_\theta (x_i)\). 
+\end{eg}

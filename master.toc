@@ -38,9 +38,10 @@
 \contentsline {section}{\numberline {10.2}Motivating Examples of Implicit Regularization}{41}{section.10.2}%
 \contentsline {paragraph}{Setting 1: Overparametrized linear regression}{41}{section*.5}%
 \contentsline {subsection}{\numberline {10.2.1}Mirror Descent}{43}{subsection.10.2.1}%
-\contentsline {chapter}{\numberline {11}Implicit Regularization of GD}{46}{chapter.11}%
-\contentsline {section}{\numberline {11.1}Implicit regularization in classification}{46}{section.11.1}%
-\contentsline {part}{IV\hspace {1em}Appendix}{48}{part.4}%
-\contentsline {chapter}{\numberline {12}Calculus}{49}{chapter.12}%
-\contentsline {section}{\numberline {12.1}Taylor Expansion}{49}{section.12.1}%
-\contentsline {section}{\numberline {12.2}Linear Algebra}{50}{section.12.2}%
+\contentsline {chapter}{\numberline {11}Implicit Regularization in Classification Problems}{46}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Linear logisitc regression}{46}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Deep Homogeneous Network}{50}{section.11.2}%
+\contentsline {part}{IV\hspace {1em}Appendix}{53}{part.4}%
+\contentsline {chapter}{\numberline {12}Calculus}{54}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Taylor Expansion}{54}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Linear Algebra}{55}{section.12.2}%

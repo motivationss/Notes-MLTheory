@@ -1,10 +1,10 @@
 # Fdb version 3
-["biber master"] 1680302710 "master.bcf" "master.bbl" "master" 1680303157
-  "master.bcf" 1680303157 107079 f9911133cd0597fa68874376d1af1bbf "pdflatex"
+["biber master"] 1680817480 "master.bcf" "master.bbl" "master" 1680819646
+  "master.bcf" 1680819645 107079 f9911133cd0597fa68874376d1af1bbf "pdflatex"
   (generated)
   "master.bbl"
   "master.blg"
-["pdflatex"] 1680303151 "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" "master.pdf" "master" 1680303157
+["pdflatex"] 1680819637 "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" "master.pdf" "master" 1680819646
   "/Users/gaotangli/Desktop/ML_Theory_Notes/master.tex" 1680288410 1676 0c75515cfd152c51cd1336cf2bb1c0ac ""
   "/Users/gaotangli/Library/texlive/2022/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk" 1658465862 6964 deca5f580be6797ac3e5a87729aa48db ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -379,17 +379,17 @@
   "Input/lec5.tex" 1677985939 14461 6f6c3f4f31116d1bc70b81c8dc619827 ""
   "Input/lec6.tex" 1678134304 14788 c9d6dba49922e66f6ce6f7afd85fa791 ""
   "Input/lec7.tex" 1678153205 8229 031c1c1d782684b23c430e6ad48803d6 ""
-  "Input/lec8.tex" 1680303150 16474 7471217858443dd55f7e483e6f9cee57 ""
-  "Input/lec9.tex" 1680288801 3474 620e5a15c278e154076840cdeac499e9 ""
-  "Math.tex" 1680289062 3113 9d7d5d0f2ad9d8d53e4dcc3edd751c9a ""
+  "Input/lec8.tex" 1680656131 16476 0625d9dcac783870aa3b17e499e581bd ""
+  "Input/lec9.tex" 1680819637 15287 26bc47dff986202202c980722a7ec50f ""
+  "Math.tex" 1680816719 3222 a8376bd59eb10fd3c3656a154f799586 ""
   "appendix.tex" 1676846844 2395 dc199606d05728a30fcb13993f483f83 ""
   "header.tex" 1675656803 10727 cb096fbff026fac9a0792a2d58be20f2 ""
-  "master.aux" 1680303157 42997 2ade080f5cf5cc8cfc6ebebcb3c3c9c4 "pdflatex"
-  "master.bbl" 1680302712 466 ee04f40f768daeed26442158e95aba61 "biber master"
-  "master.out" 1680303157 7797 0f6c335e8033a59803856c1a1f0e5356 "pdflatex"
-  "master.run.xml" 1680303157 2318 54cfa3ba94777505e137b706f4dd1953 "pdflatex"
+  "master.aux" 1680819645 45704 64e3d1ff2e79420877fd3226f1a94e73 "pdflatex"
+  "master.bbl" 1680817482 466 ee04f40f768daeed26442158e95aba61 "biber master"
+  "master.out" 1680819645 8010 8f691428104f4b9c91b17c5ca053963f "pdflatex"
+  "master.run.xml" 1680819645 2318 54cfa3ba94777505e137b706f4dd1953 "pdflatex"
   "master.tex" 1680288410 1676 0c75515cfd152c51cd1336cf2bb1c0ac ""
-  "master.toc" 1680303157 3811 bd8ace4105955a82364e07f3131dc625 "pdflatex"
+  "master.toc" 1680819645 3904 b1a3517b25615868298c6ed45fbc9107 "pdflatex"
   (generated)
   "master.aux"
   "master.bcf"

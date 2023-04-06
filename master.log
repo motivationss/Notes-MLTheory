@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.26)  31 MAR 2023 18:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.4.26)  6 APR 2023 18:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2500,74 +2500,124 @@ Overfull \hbox (29.24043pt too wide) in paragraph at lines 356--358
 Chapter 11.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 12.
+(mdframed)              on input line 60.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 59.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 64.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 67.
+(mdframed)              on input line 65.
 [46
 
 ]
-Package mdframed Info: Not enough space on this page on input line 69.
+Package mdframed Info: Not enough space on this page on input line 66.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 72.
+(mdframed)              on input line 68.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 85.
+(mdframed)              on input line 76.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 90.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 100.
 
-Overfull \hbox (18.4647pt too wide) in paragraph at lines 86--88
-[][][]\T1/cmss/bx/n/10 Theorem 11.1.1 \T1/cmss/m/n/10 (Im-plicit Reg-u-lar-iza-tion for lin-ear lo-gis-tic re-gres-sion)\T1/cmss/bx/n/10 . [][]\T1/cmr/m/n/10 GF on $\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^L\OT1/cmr/m/n/10 )$ $[]$
+
+LaTeX Warning: Command \L invalid in math mode on input line 102.
+
+Missing character: There is no Š in font cmr10!
+[47]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 146.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 155.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 160.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 163.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 230.
+Package mdframed Info: mdframed inside a box 
+ mdframed uses option nobreak mdframed on input line 233.
+Package mdframed Info: Box was splittet wrong
+ starting loop to iterate the splitting point
+(mdframed)              on input line 264.
+ [48]
+Package mdframed Info: Box was splittet wrong
+ starting loop to iterate the splitting point
+(mdframed)              on input line 264.
+ [49]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 272.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 277.
+
+Overfull \hbox (31.56653pt too wide) in paragraph at lines 279--282
+\T1/cmr/m/n/10 Let $\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 z\OT1/cmr/m/n/10 ) = [](\OML/cmm/m/it/10 z\OT1/cmr/m/n/10 ) = []\OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 z; \OT1/cmr/m/n/10 0\OMS/cmsy/m/n/10 g$ \T1/cmr/m/n/10 and we know $\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 cz\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 c^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 z\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 c > \OT1/cmr/m/n/10 0$\T1/cmr/m/n/10 . $\OML/cmm/m/it/10 h[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 W[]^^^ []$
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 95.
-
-LaTeX Warning: Command \L invalid in math mode on input line 98.
-
-Missing character: There is no Š in font cmr10!
-) (./appendix.tex [47] [48
+(mdframed)              on input line 289.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 294.
+[50]
+Package mdframed Info: Not enough space on this page on input line 309.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 313.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 324.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 342.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 360.
+ [51]) (./appendix.tex [52] [53
 
 ]
 Chapter 12.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 59.
-[49
+[54
 
 ])
 
 LaTeX Warning: Empty bibliography on input line 45.
 
-[50] (./master.aux)
+[55] (./master.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: 0F6C335E8033A59803856C1A1F0E5356;7797.
+(rerunfilecheck)             Checksum: 8F691428104F4B9C91B17C5CA053963F;8010.
 Package logreq Info: Writing requests to 'master.run.xml'.
 \openout1 = `master.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 52791 strings out of 478268
- 1205996 string characters out of 5846347
- 1984885 words of memory out of 5000000
- 69764 multiletter control sequences out of 15000+600000
+ 52854 strings out of 478268
+ 1207263 string characters out of 5846347
+ 1993605 words of memory out of 5000000
+ 69802 multiletter control sequences out of 15000+600000
  497458 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,15n,100p,1300b,1364s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} </Users/gaotangli/Library/texlive/2022/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk>{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on master.pdf (51 pages, 600706 bytes).
+Output written on master.pdf (56 pages, 620305 bytes).
 PDF statistics:
- 917 PDF objects out of 1000 (max. 8388607)
- 795 compressed objects within 8 object streams
- 332 named destinations out of 1000 (max. 500000)
- 365 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 967 PDF objects out of 1000 (max. 8388607)
+ 839 compressed objects within 9 object streams
+ 357 named destinations out of 1000 (max. 500000)
+ 373 words of extra memory for PDF output out of 10000 (max. 10000000)
 
